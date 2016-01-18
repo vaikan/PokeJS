@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>PokeApi JS Wrapper</title>
+</head>
+
+<body>
+  <div>
+    <label>Enter Poke ID:</label>
+    <input type="text" id="input-id" />
+    <button id="ajaxButton">
+      Make a request
+    </button>
+  </div>
+  <div id="results">
+  </div>
+  <script src="js/poke.js"></script>
+  <script>
+    document.getElementById("ajaxButton").onclick = function() {
+      var id = document.getElementById("input-id").value;
+      getPokeId(id, function(data) {
+        var res = JSON.parse(data);
+        document.getElementById("results").innerHTML = 'Pokemon: ' + res.name + ', Species: ' + res.species;
+      });
+    };
+  </script>
+</body>
+
+</html>
