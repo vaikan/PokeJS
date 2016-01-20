@@ -52,6 +52,8 @@ function getPokeDetails(uri, callback) {
         var response = httpRequest.response;
         var parsedResponse  = JSON.parse(response);
         callback(parsedResponse);
+        //var desc_uri = parsedResponse.descriptions[0].resource_uri;
+        //getPokeDescription(desc_uri);
       } else {
         var data = 'Could not get the result';
         callback(data);
@@ -62,3 +64,24 @@ function getPokeDetails(uri, callback) {
   httpRequest.open('GET', url);
   httpRequest.send();
 }
+
+/*function getPokeDescription(uri) {
+  var request_uri = 'http://pokeapi.co/'+uri;
+  var httpRequest = new XMLHttpRequest();
+
+  httpRequest.onreadystatechange = function getDesc() {
+    if (httpRequest.readyState === XMLHttpRequest.DONE) {
+      if (httpRequest.status === 200) {
+        var response = httpRequest.response;
+        var parsedResponse  = JSON.parse(response);
+        console.log(parsedResponse);
+      } else {
+        var data = 'Could not get the result';
+        callback(data);
+      }
+    }
+  };
+
+  httpRequest.open('GET', request_uri);
+  httpRequest.send();
+}*/
