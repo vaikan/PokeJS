@@ -8,7 +8,7 @@
 
 <body>
   <div>
-    <label>Enter Poke ID:</label>
+    <label>Enter Pokemon Name:</label>
     <input type="text" id="input-id" />
     <button id="ajaxButton">
       Make a request
@@ -19,11 +19,12 @@
   <script src="js/poke.js"></script>
   <script>
     document.getElementById("ajaxButton").onclick = function() {
-      var id = document.getElementById("input-id").value;
-      getPokeId(id, function(data) {
-        var res = JSON.parse(data);
-        document.getElementById("results").innerHTML = 'Pokemon: ' + res.name + ', Species: ' + res.species;
-      });
+      var name = document.getElementById("input-id").value;
+      var callbackFunction = function(re) {
+        console.log(re);
+        document.getElementById('results').innerHTML = 'Name: ' + re.name + '<br/> Pokedex Number: ' + re.pkdx_id;
+      };
+      getPokemon(name, callbackFunction);
     };
   </script>
 </body>
