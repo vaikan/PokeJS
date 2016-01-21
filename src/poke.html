@@ -16,7 +16,14 @@
   </div>
   <div id="results">
   </div>
+  <div>
+    <label>Get Game Versions:</label>
+    <button id="btn-ver">
+      Get It Now!!
+    </button>
+  </div>
   <script src="js/poke.js"></script>
+  <script src="js/gamever.js"></script>
   <script>
     document.getElementById("ajaxButton").onclick = function() {
       var name = document.getElementById("input-id").value;
@@ -25,6 +32,11 @@
         document.getElementById('results').innerHTML = 'Name: ' + re.name + '<br/> Pokedex Number: ' + re.pkdx_id;
       };
       getPokemon(name, callbackFunction);
+    };
+  </script>
+  <script>
+    document.getElementById("btn-ver").onclick = function() {
+      
     };
   </script>
 </body>
