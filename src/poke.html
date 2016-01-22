@@ -22,23 +22,51 @@
       Get It Now!!
     </button>
   </div>
+  <div>
+    <label>List all versions:</label>
+    <button id="btn-list">
+      List 'em all!!
+    </button>
+  </div>
+  <div id='gamever'>
+  </div>
+  <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="js/poke.js"></script>
   <script src="js/gamever.js"></script>
+  <script src="js/storage.js"></script>
   <script>
-    document.getElementById("ajaxButton").onclick = function() {
-      var name = document.getElementById("input-id").value;
-      var callbackFunction = function(re) {
-        console.log(re);
-        document.getElementById('results').innerHTML = 'Name: ' + re.name + '<br/> Pokedex Number: ' + re.pkdx_id;
+    $(function() {
+      var makeRequestButton = document.getElementById('ajaxButton');
+
+      makeRequestButton.onclick = function() {
+        var name = document.getElementById("input-id").value;
+        var callbackFunction = function(re) {
+          document.getElementById('results').innerHTML = 'Name: ' + re.name + '<br/> Pokedex Number: ' + re.pkdx_id;
+        };
+        getPokemon(name, callbackFunction);
       };
-      getPokemon(name, callbackFunction);
-    };
+
+      var getGameVer = document.getElementById('btn-ver');
+      getGameVer.onclick = function() {
+        var gamever = new Versions();
+        var cb = function(obj) {
+          storeGameVersions(obj);
+        };
+        gamever.getAllVersionNames(cb);
+      };
+
+      var getGameList = document.getElementById('btn-list');
+      getGameList.onclick = function() {
+          var versionData = retrieveGameVersions();
+          var listVer = document.getElementById('gamever');
+          for (var game in versionData) {
+            var g = versionData[game];
+            listVer.innerHTML += 'Name: ' + g.name + '<br/> Year: ' + g.year + '<br/><br/>';
+          }
+      };
+    });
   </script>
-  <script>
-    document.getElementById("btn-ver").onclick = function() {
-      
-    };
-  </script>
+
 </body>
 
 </html>

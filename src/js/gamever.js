@@ -1,42 +1,30 @@
 function Versions() {
   this.getVersionDetails = function (id, callback) {
     var url = 'http://pokeapi.co/api/v1/game/'+id;
-    var parsedResponse;
-    var httpRequest = new XMLHttpRequest();
-    httpRequest.onreadystatechange = getVersion;
-    httpRequest.open('GET', url);
-    httpRequest.send();
-
-    function getVersion() {
-      if (httpRequest.readyState === XMLHttpRequest.DONE) {
-        if (httpRequest.status === 200) {
-          var response = httpRequest.response;
-          parsedResponse  = JSON.parse(response);
-          callback(parsedResponse);
-          } else {
-          var data = 'Could not get the result';
-          console.log(data);
+    $.ajax({
+      url: url,
+      type: 'GET',
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (textStatus === 'error') {
+          console.log(textStatus);
         }
+      },
+      success: function(data) {
+        callback(data);
       }
-    }
+    });
   };
 
-  this.getAllVersionNames = function () {
-    var callbackFunction = function (parsedResponse) {
-      var obj = {
-        name: parsedResponse.name,
-        year: parsedResponse.release_year,
-        uri: parsedResponse.resource_uri
-      };
-
-      console.log(obj);
+  this.getAllVersionNames = function (cb) {
+    var obj = {};
+    var callback = function (data) {
+      obj.name = data.name;
+      obj.year = data.release_year;
+      obj.uri = data.resource_uri;
+      cb(obj);
     };
     for (var i = 1; i <= 25; i++) {
-      this.getVersionDetails(i, callbackFunction);
+      this.getVersionDetails(i, callback);
     }
-
   };
 }
-
-var gamever = new Versions();
-gamever.getAllVersionNames();

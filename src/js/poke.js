@@ -7,32 +7,28 @@
 function getPokemon(name, callback) {
   var sendURI;
   var url = 'http://pokeapi.co/api/v1/pokedex/1';
-  var httpRequest = new XMLHttpRequest();
 
-  httpRequest.onreadystatechange = function getPokedex() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        var response = httpRequest.response;
-        var parsedResponse  = JSON.parse(response);
-        for (var p in parsedResponse.pokemon) {
-          var pokename = parsedResponse.pokemon[p].name;
-          if (name.toLowerCase() === pokename) {
-            sendURI = parsedResponse.pokemon[p].resource_uri;
-          }
-        }
-        var sendCallback = function(parsedResponse) {
-          callback(parsedResponse);
-        };
-        getPokeDetails(sendURI, sendCallback);
-      } else {
-        var data = 'Could not get the result';
-        callback(data);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
       }
+    },
+    success: function(data) {
+      for (var p in data.pokemon) {
+        var pokename = data.pokemon[p].name;
+        if (name.toLowerCase() === pokename) {
+          sendURI = data.pokemon[p].resource_uri;
+        }
+      }
+      var sendCallback = function(data) {
+        callback(data);
+      };
+      getPokeDetails(sendURI, sendCallback);
     }
-  };
-
-  httpRequest.open('GET', url);
-  httpRequest.send();
+  });
 }
 
 /**
@@ -43,24 +39,17 @@ function getPokemon(name, callback) {
  */
 function getPokeDetails(uri, callback) {
   var url = 'http://pokeapi.co/' + uri;
-  var httpRequest = new XMLHttpRequest();
-  var parsedResponse;
 
-  httpRequest.onreadystatechange = function getResult() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        var response = httpRequest.response;
-        var parsedResponse  = JSON.parse(response);
-        callback(parsedResponse);
-        //var desc_uri = parsedResponse.descriptions[0].resource_uri;
-        //getPokeDescription(desc_uri);
-      } else {
-        var data = 'Could not get the result';
-        callback(data);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
       }
+    },
+    success: function(data) {
+      callback(data);
     }
-  };
-
-  httpRequest.open('GET', url);
-  httpRequest.send();
+  });
 }
