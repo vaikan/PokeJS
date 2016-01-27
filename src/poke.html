@@ -4,41 +4,102 @@
 <head>
   <meta charset="utf-8">
   <title>PokeApi JS Wrapper</title>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 </head>
 
 <body>
+  <nav class="navbar navbar-default">
+    <ul class="nav nav-pills">
+      <li class="active"><a href="poke.html">Pokedex</a></li>
+      <li><a href="gameversions.html">Game Versions</a></li>
+    </ul>
+  </nav>
   <div>
     <label>Enter Pokemon Name:</label>
     <input type="text" id="input-id" />
-    <button id="ajaxButton">
-      Make a request
+    <button id="getdetails" class="btn btn-default">
+      Get Pokemon details
     </button>
   </div>
   <div id="results">
+    <table id="pokedex-table" data-order="[[ 1, 'asc' ]]" data-page-length="10">
+    </table>
   </div>
-  <div>
-    <label>Get Game Versions:</label>
-    <button id="btn-ver">
-      Get It Now!!
-    </button>
-  </div>
+
+  <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
   <script src="js/poke.js"></script>
-  <script src="js/gamever.js"></script>
+  <script src="js/storage.js"></script>
   <script>
-    document.getElementById("ajaxButton").onclick = function() {
-      var name = document.getElementById("input-id").value;
-      var callbackFunction = function(re) {
-        console.log(re);
-        document.getElementById('results').innerHTML = 'Name: ' + re.name + '<br/> Pokedex Number: ' + re.pkdx_id;
+    $(function() {
+      getPokemon();
+      var getDetailsButton = document.getElementById('getdetails');
+      getDetailsButton.onclick = function() {
+        $('#pokedex-table').empty();
+        var name = document.getElementById("input-id").value;
+        getPokeDetails(name.toLowerCase());
+        $('#pokedex-table').DataTable();
       };
-      getPokemon(name, callbackFunction);
-    };
+    });
   </script>
-  <script>
-    document.getElementById("btn-ver").onclick = function() {
-      
-    };
+  <script type="x-handlebars-template" id="poke-template">
+    <thead id="thead">
+      <tr>
+        <th>Name</th>
+        <th>National ID</th>
+        <th>Description</th>
+        <th>Species</th>
+        <th>Type</th>
+        <th>Abilities</th>
+        <th>Moves</th>
+        <th>Egg Group</th>
+        <th>Evolution</th>
+      </tr>
+    </thead>
+    <tbody id="tbody">
+      <tr>
+        <td>{{name}}</td>
+        <td>{{national_id}}</td>
+        <td>
+          {{#if descriptions}} {{#descriptions}}
+          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
+          <br/> {{/descriptions}} {{/if}}
+        </td>
+        <td>{{species}}</td>
+        <td>
+          {{#types}}
+          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
+          <br/> {{/types}}
+        </td>
+        <td>
+          {{#abilities}}
+          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
+          <br/> {{/abilities}}
+        </td>
+        <td>
+          {{#moves}}
+          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
+          <br/> {{/moves}}
+        </td>
+        <td>
+          {{#egg_groups}}
+          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
+          <br/> {{/egg_groups}}
+        </td>
+        <td>
+          {{#evolutions}}
+          <a class="details" data-uri="{{resource_uri}}">Level: {{level}} -> {{to}}</a>
+          <br/> {{/evolutions}}
+        </td>
+      </tr>
+
+    </tbody>
   </script>
+
 </body>
 
 </html>

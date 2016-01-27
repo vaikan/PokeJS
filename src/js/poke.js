@@ -1,66 +1,86 @@
 /**
  * get Pokemon resource URI from the Pokedex and send it to getPokeDetails function
- * @param  {String}   name     name of the pokemon
- * @param  {Function} callback
- * @return {Object}            pokemon details
+ * @param  {string}   name     name of the pokemon
+ * @return {object}            pokemon details
  */
-function getPokemon(name, callback) {
-  var sendURI;
-  var url = 'http://pokeapi.co/api/v1/pokedex/1';
-  var httpRequest = new XMLHttpRequest();
+function getPokemon(name) {
+  if (localStorage.getItem('pokedex') !== null) {
+    console.log('Pokedex present in Local Storage');
+  } else {
+    var sendURI;
+    var url = 'http://pokeapi.co/api/v1/pokedex/1';
 
-  httpRequest.onreadystatechange = function getPokedex() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        var response = httpRequest.response;
-        var parsedResponse  = JSON.parse(response);
-        for (var p in parsedResponse.pokemon) {
-          var pokename = parsedResponse.pokemon[p].name;
-          if (name.toLowerCase() === pokename) {
-            sendURI = parsedResponse.pokemon[p].resource_uri;
-          }
+    $.ajax({
+      url: url,
+      type: 'GET',
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (textStatus === 'error') {
+          console.log(textStatus);
         }
-        var sendCallback = function(parsedResponse) {
-          callback(parsedResponse);
-        };
-        getPokeDetails(sendURI, sendCallback);
-      } else {
-        var data = 'Could not get the result';
-        callback(data);
+      },
+      success: function(data) {
+        storePokedex(data);
       }
-    }
-  };
-
-  httpRequest.open('GET', url);
-  httpRequest.send();
+    });
+  }
 }
 
 /**
  * gets Pokemon details from the Pokedex
- * @param  {String}   uri      Pokemon resource URI
- * @param  {Function} callback
+ * @param  {string}   name      Pokemon resource URI
  * @return {Object}            Pokemon details
  */
-function getPokeDetails(uri, callback) {
-  var url = 'http://pokeapi.co/' + uri;
-  var httpRequest = new XMLHttpRequest();
-  var parsedResponse;
+function getPokeDetails(name) {
+  var url;
+  var pokedexObj = retrievePokedex();
 
-  httpRequest.onreadystatechange = function getResult() {
-    if (httpRequest.readyState === XMLHttpRequest.DONE) {
-      if (httpRequest.status === 200) {
-        var response = httpRequest.response;
-        var parsedResponse  = JSON.parse(response);
-        callback(parsedResponse);
-        //var desc_uri = parsedResponse.descriptions[0].resource_uri;
-        //getPokeDescription(desc_uri);
-      } else {
-        var data = 'Could not get the result';
-        callback(data);
-      }
+  for (var p in pokedexObj.pokemon) {
+    var pokename = pokedexObj.pokemon[p].name;
+    if (name.toLowerCase() === pokename) {
+      url = 'http://pokeapi.co/' + pokedexObj.pokemon[p].resource_uri;
     }
-  };
+  }
 
-  httpRequest.open('GET', url);
-  httpRequest.send();
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      var theTemplateScript = $('#poke-template').html();
+      var theTemplate = Handlebars.compile(theTemplateScript);
+      $("#pokedex-table").append(theTemplate(data));
+
+      $('.evolve').click(function() {
+        var name = $(this).text();
+        $('#pokedex-table').empty();
+        getPokeDetails(name.toLowerCase());
+        $('#pokedex-table').DataTable();
+      });
+
+      $('.details').click(function() {
+        var uri = $(this).data('uri');
+        getPokeData(uri);
+      });
+    }
+  });
+}
+
+function getPokeData(uri) {
+  var url = 'http://pokeapi.co/' + uri;
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      console.log(data);
+    }
+  });
 }
