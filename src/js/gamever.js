@@ -20,7 +20,7 @@ function Versions() {
     var callback = function (data) {
       obj.name = data.name;
       obj.year = data.release_year;
-      obj.uri = data.resource_uri;
+      obj.generation = data.generation;
       cb(obj);
     };
     for (var i = 1; i <= 25; i++) {

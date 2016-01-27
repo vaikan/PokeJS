@@ -1,44 +1,45 @@
 /**
  * get Pokemon resource URI from the Pokedex and send it to getPokeDetails function
- * @param  {String}   name     name of the pokemon
- * @param  {Function} callback
- * @return {Object}            pokemon details
+ * @param  {string}   name     name of the pokemon
+ * @return {object}            pokemon details
  */
-function getPokemon(name, callback) {
-  var sendURI;
-  var url = 'http://pokeapi.co/api/v1/pokedex/1';
+function getPokemon(name) {
+  if (localStorage.getItem('pokedex') !== null) {
+    console.log('Pokedex present in Local Storage');
+  } else {
+    var sendURI;
+    var url = 'http://pokeapi.co/api/v1/pokedex/1';
 
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
-      }
-    },
-    success: function(data) {
-      for (var p in data.pokemon) {
-        var pokename = data.pokemon[p].name;
-        if (name.toLowerCase() === pokename) {
-          sendURI = data.pokemon[p].resource_uri;
+    $.ajax({
+      url: url,
+      type: 'GET',
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (textStatus === 'error') {
+          console.log(textStatus);
         }
+      },
+      success: function(data) {
+        storePokedex(data);
       }
-      var sendCallback = function(data) {
-        callback(data);
-      };
-      getPokeDetails(sendURI, sendCallback);
-    }
-  });
+    });
+  }
 }
 
 /**
  * gets Pokemon details from the Pokedex
- * @param  {String}   uri      Pokemon resource URI
- * @param  {Function} callback
+ * @param  {string}   name      Pokemon resource URI
  * @return {Object}            Pokemon details
  */
-function getPokeDetails(uri, callback) {
-  var url = 'http://pokeapi.co/' + uri;
+function getPokeDetails(name) {
+  var url;
+  var pokedexObj = retrievePokedex();
+
+  for (var p in pokedexObj.pokemon) {
+    var pokename = pokedexObj.pokemon[p].name;
+    if (name.toLowerCase() === pokename) {
+      url = 'http://pokeapi.co/' + pokedexObj.pokemon[p].resource_uri;
+    }
+  }
 
   $.ajax({
     url: url,
@@ -49,7 +50,37 @@ function getPokeDetails(uri, callback) {
       }
     },
     success: function(data) {
-      callback(data);
+      var theTemplateScript = $('#poke-template').html();
+      var theTemplate = Handlebars.compile(theTemplateScript);
+      $("#pokedex-table").append(theTemplate(data));
+
+      $('.evolve').click(function() {
+        var name = $(this).text();
+        $('#pokedex-table').empty();
+        getPokeDetails(name.toLowerCase());
+        $('#pokedex-table').DataTable();
+      });
+
+      $('.details').click(function() {
+        var uri = $(this).data('uri');
+        getPokeData(uri);
+      });
+    }
+  });
+}
+
+function getPokeData(uri) {
+  var url = 'http://pokeapi.co/' + uri;
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      console.log(data);
     }
   });
 }
