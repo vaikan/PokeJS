@@ -52,10 +52,11 @@ function getPokeDetails(name) {
     success: function(data) {
       var theTemplateScript = $('#poke-template').html();
       var theTemplate = Handlebars.compile(theTemplateScript);
+      Handlebars.registerPartial('moves', $('#moves-partial').html());
       $("#pokedex-table").append(theTemplate(data));
 
       $('.evolve').click(function() {
-        var name = $(this).text();
+        var name = $(this).data('name');
         $('#pokedex-table').empty();
         getPokeDetails(name.toLowerCase());
         $('#pokedex-table').DataTable();
@@ -64,6 +65,10 @@ function getPokeDetails(name) {
       $('.details').click(function() {
         var uri = $(this).data('uri');
         getPokeData(uri);
+      });
+
+      $('.showdetails').click(function () {
+        $('#myModal').modal();
       });
     }
   });
@@ -81,6 +86,26 @@ function getPokeData(uri) {
     },
     success: function(data) {
       console.log(data);
+      /*var theTemplateScript = $('#poke-template').html();
+      var theTemplate = Handlebars.compile(theTemplateScript);
+      Handlebars.registerPartial('moves', $('#moves-partial').html());
+      $("#pokedex-table").append(theTemplate(data));
+
+      $('.evolve').click(function() {
+        var name = $(this).text();
+        $('#pokedex-table').empty();
+        getPokeDetails(name.toLowerCase());
+        $('#pokedex-table').DataTable();
+      });
+
+      $('.details').click(function() {
+        var uri = $(this).data('uri');
+        getPokeData(uri);
+      });
+
+      $('.showdetails').click(function () {
+        $('#myModal').modal();
+      });*/
     }
   });
 }

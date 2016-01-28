@@ -16,7 +16,6 @@
     }
   </style>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
   <script src="assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
@@ -35,80 +34,32 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="poke.html">Pokedex</a></li>
-          <li class="active"><a href="gameversions.html">Game Versions</a></li>
+          <li><a href="gameversions.html">Game Versions</a></li>
         </ul>
       </div>
       <!--/.navbar-collapse -->
     </div>
   </nav>
+
+  <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <label>List all game versions:</label>
-          <button id="btn-list" class="btn btn-primary">List 'em all!!</button>
-        </div>
-        <div class="col-md-4">
-          <button id="btn-ver" class="btn btn-primary">Store games' list</button>
-        </div>
-      </div>
+      <h1>PokeJS - Pokedex built using JavaScript</h1>
+      <p>This is a simple proof of concept for Pokedex built using Javascript and uses PokeApi for the Pokemon data.</p>
+      <p><a class="btn btn-primary btn-lg" href="#" role="button">More &raquo;</a></p>
     </div>
   </div>
-  <div class="container">
-    <table id="version-table" data-order="[[ 1, 'asc' ]]" data-page-length="10" class="table">
-    </table>
-  </div>
+
   <div class="container">
     <hr>
     <footer>
       <p>&copy; Vaikan 2015</p>
     </footer>
   </div>
+  <!-- /container -->
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-  <script src="js/gamever.js"></script>
-  <script src="js/storage.js"></script>
-  <script>
-    $(function() {
-      // TODO: get game versions on page load.[HINT]: use regex to check for name key that is already present in version
-
-      var getGameVer = document.getElementById('btn-ver');
-      getGameVer.onclick = function() {
-        var gamever = new Versions();
-        var cb = function(obj) {
-          storeGameVersions(obj);
-        };
-        gamever.getAllVersionNames(cb);
-      };
-
-      var getGameList = document.getElementById('btn-list');
-      getGameList.onclick = function() {
-        retrieveGameVersions();
-        $('#version-table').DataTable();
-      };
-    });
-  </script>
-  <script type="x-handlebars-template" id="ver-template">
-    <thead id="thead">
-      <tr>
-        <th>Name</th>
-        <th>Year</th>
-        <th>Pokemon Generation</th>
-      </tr>
-    </thead>
-    <tbody id="tbody">
-      {{#versions}}
-      <tr>
-        <td>{{name}}</td>
-        <td>{{year}}</td>
-        <td>{{generation}}</td>
-      </tr>
-      {{/versions}}
-    </tbody>
-  </script>
-
 </body>
 
 </html>
