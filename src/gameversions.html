@@ -1,35 +1,68 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html class="no-js" lang="">
+
 <head>
   <meta charset="utf-8">
-  <title>PokeApi JS Wrapper - Game Versions</title>
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>PokeJS - Pokedex</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 50px;
+      padding-bottom: 20px;
+    }
+  </style>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
+  <script src="assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
 <body>
-  <nav class="navbar navbar-default">
-    <ul class="nav nav-pills">
-      <li><a href="poke.html">Pokedex</a></li>
-      <li class="active"><a href="gameversions.html">Game Versions</a></li>
-    </ul>
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">PokeJS</a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="poke.html">Pokedex</a></li>
+          <li class="active"><a href="gameversions.html">Game Versions</a></li>
+        </ul>
+      </div>
+      <!--/.navbar-collapse -->
+    </div>
   </nav>
-  <div>
-    <label>Get Game Versions:</label>
-    <button id="btn-ver">
-      Get It Now!!
-    </button>
+  <div class="jumbotron">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <label>List all game versions:</label>
+          <button id="btn-list" class="btn btn-primary">List 'em all!!</button>
+        </div>
+        <div class="col-md-4">
+          <button id="btn-ver" class="btn btn-primary">Store games' list</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <div>
-    <label>List all versions:</label>
-    <button id="btn-list">
-      List 'em all!!
-    </button>
-  </div>
-  <div>
-    <table id="version-table" data-order="[[ 1, 'asc' ]]" data-page-length="10">
+  <div class="container">
+    <table id="version-table" data-order="[[ 1, 'asc' ]]" data-page-length="10" class="table">
     </table>
+  </div>
+  <div class="container">
+    <hr>
+    <footer>
+      <p>&copy; Vaikan 2015</p>
+    </footer>
   </div>
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -40,6 +73,10 @@
   <script>
     $(function() {
       // TODO: get game versions on page load.[HINT]: use regex to check for name key that is already present in version
+      var localStorageKey = localStorage.getItem('version');
+      if (localStorageKey !== null) {
+        $('#btn-ver').hide();
+      }
 
       var getGameVer = document.getElementById('btn-ver');
       getGameVer.onclick = function() {
@@ -77,4 +114,5 @@
   </script>
 
 </body>
+
 </html>

@@ -1,3 +1,7 @@
+/**
+ * store pokemon gameversion to the local storage
+ * @param  {Object} versionObj pokemon game version object
+ */
 function storeGameVersions(versionObj) {
   if (!window.localStorage) {
     console.log('no localstorage support!!');
@@ -16,6 +20,9 @@ function storeGameVersions(versionObj) {
   }
 }
 
+/**
+ * retrieve game version from the local storage
+ */
 function retrieveGameVersions() {
   if (!window.localStorage) {
     console.log('no localstorage support!!');
@@ -29,6 +36,10 @@ function retrieveGameVersions() {
   }
 }
 
+/**
+ * store pokedex index to the local storage
+ * @param  {Object} pokedexObj    pokedex index object
+ */
 function storePokedex(pokedexObj) {
   if (!window.localStorage) {
     console.log('no localstorage support');
@@ -44,6 +55,9 @@ function storePokedex(pokedexObj) {
   }
 }
 
+/**
+ * retrieve pokedex details from the local storage
+ */
 function retrievePokedex() {
   if (!window.localStorage) {
     console.log('no localstorage support!!');
