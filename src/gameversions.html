@@ -73,6 +73,10 @@
   <script>
     $(function() {
       // TODO: get game versions on page load.[HINT]: use regex to check for name key that is already present in version
+      var localStorageKey = localStorage.getItem('version');
+      if (localStorageKey !== null) {
+        $('#btn-ver').hide();
+      }
 
       var getGameVer = document.getElementById('btn-ver');
       getGameVer.onclick = function() {

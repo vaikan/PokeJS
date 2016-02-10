@@ -50,31 +50,47 @@ function getPokeDetails(name) {
       }
     },
     success: function(data) {
-      var theTemplateScript = $('#poke-template').html();
-      var theTemplate = Handlebars.compile(theTemplateScript);
-      Handlebars.registerPartial('moves', $('#moves-partial').html());
-      $("#pokedex-table").append(theTemplate(data));
+      var description = data.descriptions[0].resource_uri;
+      var callback = function(desc) {
+        data.desc = desc;
+        var theTemplateScript = $('#poke-template').html();
+        var theTemplate = Handlebars.compile(theTemplateScript);
+        Handlebars.registerPartial('moves', $('#moves-partial').html());
+        $("#pokedex-table").append(theTemplate(data));
 
-      $('.evolve').click(function() {
-        var name = $(this).data('name');
-        $('#pokedex-table').empty();
-        getPokeDetails(name.toLowerCase());
-        $('#pokedex-table').DataTable();
-      });
+        $('.evolve').click(function() {
+          var name = $(this).data('name');
+          $('#pokedex-table').empty();
+          getPokeDetails(name.toLowerCase());
+          $('#pokedex-table').DataTable();
+        });
 
-      $('.details').click(function() {
-        var uri = $(this).data('uri');
-        getPokeData(uri);
-      });
+        $('.details').click(function() {
+          var uri = $(this).data('uri');
+          var callback = function (data) {
+            var theTemplateScript = $('#type-template').html();
+            var theTemplate = Handlebars.compile(theTemplateScript);
+            $("#type-body").append(theTemplate(data));
+          };
+          getPokeData(uri, callback);
+          $("#typeModal").modal();
+        });
 
-      $('.showdetails').click(function () {
-        $('#myModal').modal();
-      });
+        $('.showdetails').click(function () {
+          $('#myModal').modal();
+        });
+      };
+      getDescription(description, callback);
     }
   });
 }
 
-function getPokeData(uri) {
+/**
+ * get pokemon data (type, ablities)
+ * @param  {string}   uri      resource uri for the pokemon data
+ * @param  {Function} callback
+ */
+function getPokeData(uri, callback) {
   var url = 'http://pokeapi.co/' + uri;
   $.ajax({
     url: url,
@@ -85,27 +101,28 @@ function getPokeData(uri) {
       }
     },
     success: function(data) {
-      console.log(data);
-      /*var theTemplateScript = $('#poke-template').html();
-      var theTemplate = Handlebars.compile(theTemplateScript);
-      Handlebars.registerPartial('moves', $('#moves-partial').html());
-      $("#pokedex-table").append(theTemplate(data));
+      callback(data);
+    }
+  });
+}
 
-      $('.evolve').click(function() {
-        var name = $(this).text();
-        $('#pokedex-table').empty();
-        getPokeDetails(name.toLowerCase());
-        $('#pokedex-table').DataTable();
-      });
-
-      $('.details').click(function() {
-        var uri = $(this).data('uri');
-        getPokeData(uri);
-      });
-
-      $('.showdetails').click(function () {
-        $('#myModal').modal();
-      });*/
+/**
+ * get Pokemon description
+ * @param  {string}   description resource uri for pokemon description
+ * @param  {Function} callback
+ */
+function getDescription(description, callback) {
+  var url = 'http://pokeapi.co/' + description;
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      callback(data.description);
     }
   });
 }

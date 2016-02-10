@@ -56,6 +56,21 @@
     <table id="pokedex-table" data-order="[[ 1, 'asc' ]]" data-page-length="10" class="table">
     </table>
   </div>
+  <div id="typeModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Type Details</h4>
+        </div>
+        <div class="modal-body" id="type-body">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <div class="container">
     <hr>
     <footer>
@@ -70,6 +85,7 @@
   <script src="js/storage.js"></script>
   <script>
     $(function() {
+      //checkIndexedDB();
       getPokemon();
       var getDetailsButton = document.getElementById('getdetails');
       getDetailsButton.onclick = function() {
@@ -99,7 +115,8 @@
         <td>{{name}}</td>
         <td>{{national_id}}</td>
         <td>
-          <a class="" data-uri="">See details</a>
+          <a class="description" data-uri="">{{desc}}
+          </a>
         </td>
         <td>{{species}}</td>
         <td>
@@ -113,13 +130,13 @@
           <br/> {{/abilities}}
         </td>
         <td>
-          <a class="showdetails">See details</a>
+          <a class="showdetails">See all moves</a>
           {{> moves}}
         </td>
         <td>
           {{#egg_groups}}
-          <a class="details" data-uri="{{resource_uri}}">{{name}}</a>
-          <br/> {{/egg_groups}}
+            {{name}}<br/>
+          {{/egg_groups}}
         </td>
         <td>
           {{#evolutions}}
@@ -149,6 +166,34 @@
         </div>
       </div>
     </div>
+  </script>
+
+  <script type="x-handlebars-template" id="type-template">
+    <label>Ineffective</label>
+    {{#ineffective}}
+      <li>{{name}}</li>
+    {{/ineffective}}
+    <hr/>
+    <label>No Effect</label>
+    {{#no_effect}}
+      <li>{{name}}</li>
+    {{/no_effect}}
+    <hr/>
+    <label>Resistance</label>
+    {{#resistance}}
+      <li>{{name}}</li>
+    {{/resistance}}
+    <hr/>
+    <label>Super Effective</label>
+    {{#super_effective}}
+      <li>{{name}}</li>
+    {{/super_effective}}
+    <hr/>
+    <label>Weakness</label>
+    {{#weakness}}
+      <li>{{name}}</li>
+    {{/weakness}}
+    <hr/>
   </script>
 
 </body>
