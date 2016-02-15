@@ -85,7 +85,6 @@
   <script src="js/storage.js"></script>
   <script>
     $(function() {
-      //checkIndexedDB();
       getPokemon();
       var getDetailsButton = document.getElementById('getdetails');
       getDetailsButton.onclick = function() {
@@ -113,11 +112,8 @@
     <tbody id="tbody">
       <tr>
         <td>{{name}}</td>
-        <td>{{national_id}}</td>
-        <td>
-          <a class="description" data-uri="">{{desc}}
-          </a>
-        </td>
+        <td>{{id}}</td>
+        <td>{{color.name}}</td>
         <td>{{species}}</td>
         <td>
           {{#types}}
