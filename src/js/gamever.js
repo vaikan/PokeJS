@@ -1,4 +1,8 @@
-getGameDetails = function(url) {
+/**
+ * get and store game version details
+ * @param  {string} url resource url for game versions
+ */
+function getGameDetails(url) {
   $.ajax({
     url: url,
     type: 'GET',
@@ -11,9 +15,12 @@ getGameDetails = function(url) {
       storeGameDetails(data);
     }
   });
-};
+}
 
-getVersionNames = function() {
+/**
+ * get game version-group details
+ */
+function getVersionNames() {
   if (localStorage.getItem('Game-Version') !== null) {
     console.log('"Game-Version" present in Local Storage');
   } else {
@@ -35,4 +42,4 @@ getVersionNames = function() {
       }
     });
   }
-};
+}

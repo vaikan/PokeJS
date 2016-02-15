@@ -1,5 +1,5 @@
 # PokeJS
-A simple Pokedex created using JavaScript and [PokeAPI] (http://pokeapi.co).
+A simple Pokedex created using JavaScript and [PokeAPI] (http://pokeapi.co) now using API V2.
 Inspired by [Pokedex.org] (http://www.pokedex.org) by Nolan Lawson.
 
 **NOTE:**
