@@ -1,6 +1,23 @@
-function Versions() {
-  this.getVersionDetails = function (id, callback) {
-    var url = 'http://pokeapi.co/api/v1/game/'+id;
+getGameDetails = function(url) {
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      storeGameDetails(data);
+    }
+  });
+};
+
+getVersionNames = function() {
+  if (localStorage.getItem('Game-Version') !== null) {
+    console.log('"Game-Version" present in Local Storage');
+  } else {
+    var url = 'http://pokeapi.co/api/v2/version-group/';
     $.ajax({
       url: url,
       type: 'GET',
@@ -10,21 +27,12 @@ function Versions() {
         }
       },
       success: function(data) {
-        callback(data);
+        storeGameVersions(data);
+        for (var v in data) {
+          var url = data[v].url;
+          getGameDetails(url);
+        }
       }
     });
-  };
-
-  this.getAllVersionNames = function (cb) {
-    var obj = {};
-    var callback = function (data) {
-      obj.name = data.name;
-      obj.year = data.release_year;
-      obj.generation = data.generation;
-      cb(obj);
-    };
-    for (var i = 1; i <= 25; i++) {
-      this.getVersionDetails(i, callback);
-    }
-  };
-}
+  }
+};

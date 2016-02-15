@@ -4,12 +4,11 @@
  * @return {object}            pokemon details
  */
 function getPokemon(name) {
-  if (localStorage.getItem('pokedex') !== null) {
+  if (localStorage.getItem('Pokedex') !== null) {
     console.log('Pokedex present in Local Storage');
   } else {
     var sendURI;
-    var url = 'http://pokeapi.co/api/v1/pokedex/1';
-
+    var url = 'http://pokeapi.co/api/v2/pokedex/1';
     $.ajax({
       url: url,
       type: 'GET',
@@ -20,6 +19,8 @@ function getPokemon(name) {
       },
       success: function(data) {
         storePokedex(data);
+        //var totalPokemon = data.pokemon_entries.length;
+        // TODO: find a way to add all pokemon data into user stored db like indexed db.
       }
     });
   }
@@ -33,11 +34,13 @@ function getPokemon(name) {
 function getPokeDetails(name) {
   var url;
   var pokedexObj = retrievePokedex();
+  var pokeEntry = pokedexObj.pokemon_entries;
 
-  for (var p in pokedexObj.pokemon) {
-    var pokename = pokedexObj.pokemon[p].name;
+  for (var p in pokeEntry) {
+    var pokename = pokeEntry[p].pokemon_species.name;
+
     if (name.toLowerCase() === pokename) {
-      url = 'http://pokeapi.co/' + pokedexObj.pokemon[p].resource_uri;
+      url = pokeEntry[p].pokemon_species.url;
     }
   }
 
@@ -50,37 +53,36 @@ function getPokeDetails(name) {
       }
     },
     success: function(data) {
-      var description = data.descriptions[0].resource_uri;
-      var callback = function(desc) {
-        data.desc = desc;
-        var theTemplateScript = $('#poke-template').html();
-        var theTemplate = Handlebars.compile(theTemplateScript);
-        Handlebars.registerPartial('moves', $('#moves-partial').html());
-        $("#pokedex-table").append(theTemplate(data));
+      console.log(data);
+      var theTemplateScript = $('#poke-template').html();
+      var theTemplate = Handlebars.compile(theTemplateScript);
+      Handlebars.registerPartial('moves', $('#moves-partial').html());
+      $("#pokedex-table").append(theTemplate(data));
 
-        $('.evolve').click(function() {
-          var name = $(this).data('name');
-          $('#pokedex-table').empty();
-          getPokeDetails(name.toLowerCase());
-          $('#pokedex-table').DataTable();
-        });
+      $('.evolve').click(function() {
+        var name = $(this).data('name');
+        $('#pokedex-table').empty();
+        getPokeDetails(name.toLowerCase());
+        $('#pokedex-table').DataTable();
+      });
 
-        $('.details').click(function() {
-          var uri = $(this).data('uri');
-          var callback = function (data) {
-            var theTemplateScript = $('#type-template').html();
-            var theTemplate = Handlebars.compile(theTemplateScript);
-            $("#type-body").append(theTemplate(data));
-          };
-          getPokeData(uri, callback);
-          $("#typeModal").modal();
-        });
+      $('.details').click(function() {
+        var uri = $(this).data('uri');
+        $('#type-body').empty();
+        var callback = function(data) {
+          var theTemplateScript = $('#type-template').html();
+          var theTemplate = Handlebars.compile(theTemplateScript);
+          $("#type-body").append(theTemplate(data));
+        };
+        getPokeData(uri, callback);
+        $("#typeModal").modal();
+      });
 
-        $('.showdetails').click(function () {
-          $('#myModal').modal();
-        });
-      };
-      getDescription(description, callback);
+      $('.showdetails').click(function() {
+        $('#myModal').modal();
+      });
+
+      //getDescription(description, callback);
     }
   });
 }

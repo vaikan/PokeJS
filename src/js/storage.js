@@ -7,15 +7,30 @@ function storeGameVersions(versionObj) {
     console.log('no localstorage support!!');
   } else {
     var jsonString = JSON.stringify(versionObj);
-    if (localStorage.getItem('version') === null) {
-      localStorage.setItem('version', jsonString);
+    if (localStorage.getItem('Game-Version') === null) {
+      localStorage.setItem('Game-Version', jsonString);
+      console.log('New key "Game-Version" added to Local Storage');
     } else {
-      var prevData = localStorage.getItem('version');
-      if (prevData === null) {
-        localStorage.setItem('version', jsonString);
-      } else {
-        localStorage.setItem('version', prevData + ',' + jsonString);
-      }
+      console.log('"Game-Version" is already in Local Storage');
+    }
+  }
+}
+
+/**
+ * store version details in the local storage
+ * @param  {Object} versiongroup version details object
+ */
+function storeGameDetails(versiongroup) {
+  if (!window.localStorage) {
+    console.log('no localstorage support!!');
+  } else {
+    var jsonString = JSON.stringify(versiongroup);
+    var versionName = versiongroup.name;
+    if (localStorage.getItem('Game-Version-'+versionName) === null) {
+      localStorage.setItem('Game-Version-'+versionName, jsonString);
+      console.log('New key "Game-Version-'+ versionName +'" added to Local Storage');
+    } else {
+      console.log('"Game-Version-'+ versionName +'" is already in Local Storage');
     }
   }
 }
@@ -27,9 +42,8 @@ function retrieveGameVersions() {
   if (!window.localStorage) {
     console.log('no localstorage support!!');
   } else {
-    var data = '{"versions": [' + localStorage.getItem('version') + ']}';
+    var data = '{"versions":' + localStorage.getItem('Game-Version') + '}';
     var parseJSON = JSON.parse(data);
-
     var theTemplateScript = $('#ver-template').html();
     var theTemplate = Handlebars.compile(theTemplateScript);
     $("#version-table").append(theTemplate(parseJSON));
@@ -46,8 +60,8 @@ function storePokedex(pokedexObj) {
   } else {
     var jsonString = JSON.stringify(pokedexObj);
 
-    if (localStorage.getItem('pokedex') === null) {
-      localStorage.setItem('pokedex', jsonString);
+    if (localStorage.getItem('Pokedex') === null) {
+      localStorage.setItem('Pokedex', jsonString);
       console.log('New key "Pokedex" added to Local Storage');
     } else {
       console.log('Pokedex is present in localStorage');
@@ -62,7 +76,7 @@ function retrievePokedex() {
   if (!window.localStorage) {
     console.log('no localstorage support!!');
   } else {
-    var data = localStorage.getItem('pokedex');
+    var data = localStorage.getItem('Pokedex');
     var parseJSON = JSON.parse(data);
     return parseJSON;
   }

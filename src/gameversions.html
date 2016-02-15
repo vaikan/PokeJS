@@ -73,18 +73,14 @@
   <script>
     $(function() {
       // TODO: get game versions on page load.[HINT]: use regex to check for name key that is already present in version
-      var localStorageKey = localStorage.getItem('version');
+      var localStorageKey = localStorage.getItem('Game-Version');
       if (localStorageKey !== null) {
         $('#btn-ver').hide();
       }
 
       var getGameVer = document.getElementById('btn-ver');
       getGameVer.onclick = function() {
-        var gamever = new Versions();
-        var cb = function(obj) {
-          storeGameVersions(obj);
-        };
-        gamever.getAllVersionNames(cb);
+        getVersionNames();
       };
 
       var getGameList = document.getElementById('btn-list');
@@ -98,16 +94,14 @@
     <thead id="thead">
       <tr>
         <th>Name</th>
-        <th>Year</th>
-        <th>Pokemon Generation</th>
+        <th>Details</th>
       </tr>
     </thead>
     <tbody id="tbody">
       {{#versions}}
       <tr>
         <td>{{name}}</td>
-        <td>{{year}}</td>
-        <td>{{generation}}</td>
+        <td><a>{{url}}</a></td>
       </tr>
       {{/versions}}
     </tbody>
