@@ -1,5 +1,7 @@
 #### TODO List
 
+- Migrate all previous codes to V2 and then proceed to other todos
+
 - Make a user friendly template for displaying pokemon data
 
 - Find way to add pokemon sprites
