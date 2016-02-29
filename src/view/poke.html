@@ -7,17 +7,20 @@
   <title>PokeJS - Pokedex</title>
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="assets/img/favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="../assets/img/favicon.ico" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <style>
     body {
       padding-top: 50px;
       padding-bottom: 20px;
     }
+    .modal-body {
+      max-height: calc(100vh - 210px);
+      overflow-y: auto;
+    }
   </style>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css">
-  <script src="assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+  <script src="../assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
 <body>
@@ -30,12 +33,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="index.html">PokeJS</a>
+        <a class="navbar-brand" href="../index.html">PokeJS</a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="poke.html">Pokedex</a></li>
-          <li class="active"><a href="gameversions.html">Game Versions</a></li>
+          <li class="active"><a href="poke.html">Pokedex</a></li>
+          <li><a href="gameversions.html">Game Versions</a></li>
         </ul>
       </div>
       <!--/.navbar-collapse -->
@@ -43,18 +46,12 @@
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <label>List all game versions:</label>
-          <button id="btn-list" class="btn btn-primary">List 'em all!!</button>
-        </div>
-      </div>
+      <label>Enter Pokemon Name:</label>
+      <input type="text" id="input-id" value="">
+      <button id="getdetails" class="btn btn-primary">Search Pokemon</button>
     </div>
   </div>
-  <div class="container">
-    <table id="version-table" data-order="[[ 1, 'asc' ]]" data-page-length="10" class="table">
-    </table>
-  </div>
+  <div class="container" id="pokedex-table"></div>
   <div class="container">
     <hr>
     <footer>
@@ -64,42 +61,38 @@
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-  <script src="https://cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
-  <script src="js/gamever.js"></script>
-  <script src="js/storage.js"></script>
+  <script src="../controller/poke.js"></script>
+  <script src="../model/storage.js"></script>
+  <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
-      var localStorageKey = localStorage.getItem('Game-Version');
-      if (localStorageKey !== null) {
-        console.log('"Game-Version" is present in Local Storage');
-      } else {
-        getVersionNames();
-      }
-
-      var getGameList = document.getElementById('btn-list');
-      getGameList.onclick = function() {
-        retrieveGameVersions();
-        $('#version-table').DataTable();
+      getPokemon();
+      var getDetailsButton = document.getElementById('getdetails');
+      getDetailsButton.onclick = function() {
+        $('#pokedex-table').empty();
+        var name = document.getElementById("input-id").value;
+        getPokeDetails(name.toLowerCase());
       };
     });
   </script>
-  <script type="x-handlebars-template" id="ver-template">
-    <thead id="thead">
+  <script type="x-handlebars-template" id="poke-template">
+  <center><label>{{FirstStringUpperCase name}}: {{id}}</label></center>
+  <div class="table-responsive">
+    <table class="table">
       <tr>
-        <th>Name</th>
-        <th>Details</th>
+        <th>Color</th><td>{{FirstStringUpperCase color.name}}</td>
+        <th>Habitat</th><td>{{FirstStringUpperCase habitat.name}}</td>
       </tr>
-    </thead>
-    <tbody id="tbody">
-      {{#versions}}
       <tr>
-        <td>{{name}}</td>
-        <td><a>{{url}}</a></td>
+        <th>Generation</th><td>{{FirstStringUpperCase generation.name}}</td>
+        <th>Shape</th><td>{{FirstStringUpperCase shape.name}}</td>
       </tr>
-      {{/versions}}
-    </tbody>
+        <th>Egg Group</th><td>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</td>
+        <th>Evolved From</th><td>{{FirstStringUpperCase evolves_from_species.name}}</td>
+      </tr>
+    </table>
+  </div>
   </script>
-
 </body>
 
 </html>

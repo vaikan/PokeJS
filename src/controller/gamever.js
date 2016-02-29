@@ -43,3 +43,28 @@ function getVersionNames() {
     });
   }
 }
+
+function getGameVersionDetails(url, name) {
+  retrieveGameVersionsModalDetails(name);
+}
+
+function setVersionTemplate(dataObj) {
+  var parseJSON = JSON.parse(dataObj);
+  var theTemplateScript = $('#ver-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#version-table").append(theTemplate(parseJSON));
+  $('.details').click(function() {
+    var uri = $(this).data('url');
+    var name = $(this).data('name');
+    getGameVersionDetails(uri, name);
+  });
+}
+
+function setVersionDetailsTemplate(dataObj) {
+  $('#gamever-body').empty();
+  var parseJSON = JSON.parse(dataObj);
+  var theTemplateScript = $('#verdetails-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#gamever-body").append(theTemplate(parseJSON));
+  $('#gamever-modal').modal();
+}
