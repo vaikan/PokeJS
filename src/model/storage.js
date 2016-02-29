@@ -43,10 +43,20 @@ function retrieveGameVersions() {
     console.log('no localstorage support!!');
   } else {
     var data = '{"versions":' + localStorage.getItem('Game-Version') + '}';
-    var parseJSON = JSON.parse(data);
-    var theTemplateScript = $('#ver-template').html();
-    var theTemplate = Handlebars.compile(theTemplateScript);
-    $("#version-table").append(theTemplate(parseJSON));
+    setVersionTemplate(data);
+  }
+}
+
+/**
+ * retrieve game version from the local storage
+ */
+function retrieveGameVersionsModalDetails(name) {
+  if (!window.localStorage) {
+    console.log('no localstorage support!!');
+  } else {
+    var gameName = 'Game-Version-'+name;
+    var data = localStorage.getItem(gameName);
+    setVersionDetailsTemplate(data);
   }
 }
 
