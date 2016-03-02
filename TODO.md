@@ -4,7 +4,7 @@
 
 - Make a user friendly template for displaying pokemon data
 
-- Find way to add pokemon sprites
+- Find way to add pokemon sprites and Game Version images.
 
 - Add modal for "abilities" **[not needed currently. will work on it later]**
 

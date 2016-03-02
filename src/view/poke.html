@@ -46,12 +46,20 @@
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <label>Enter Pokemon Name:</label>
-      <input type="text" id="input-id" value="">
-      <button id="getdetails" class="btn btn-primary">Search Pokemon</button>
+      <div class="row col-md-4">
+        <!--<form class="navbar-form navbar-right">-->
+          <div class="form-group">
+              <input type="text" class="form-control" id="input-id" value="" placeholder="Enter Pokemon Name">
+          </div>
+          <button id="getdetails" class="btn btn-primary">Search</button>
+        <!--</form>-->
+      </div>
     </div>
   </div>
-  <div class="container" id="pokedex-table"></div>
+  <div class="container">
+    <div class="row" id="pokedex-table"></div>
+    <div class="row" id="pokestats-table"></div>
+  </div>
   <div class="container">
     <hr>
     <footer>
@@ -70,27 +78,41 @@
       var getDetailsButton = document.getElementById('getdetails');
       getDetailsButton.onclick = function() {
         $('#pokedex-table').empty();
+        $('#pokestats-table').empty();
         var name = document.getElementById("input-id").value;
         getPokeDetails(name.toLowerCase());
       };
     });
   </script>
   <script type="x-handlebars-template" id="poke-template">
-  <center><label>{{FirstStringUpperCase name}}: {{id}}</label></center>
-  <div class="table-responsive">
-    <table class="table">
-      <tr>
-        <th>Color</th><td>{{FirstStringUpperCase color.name}}</td>
-        <th>Habitat</th><td>{{FirstStringUpperCase habitat.name}}</td>
-      </tr>
-      <tr>
-        <th>Generation</th><td>{{FirstStringUpperCase generation.name}}</td>
-        <th>Shape</th><td>{{FirstStringUpperCase shape.name}}</td>
-      </tr>
-        <th>Egg Group</th><td>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</td>
-        <th>Evolved From</th><td>{{FirstStringUpperCase evolves_from_species.name}}</td>
-      </tr>
-    </table>
+  <div class="col-md-4">
+    <h2>{{FirstStringUpperCase name}}: {{id}}</h2>
+    <p>Images placeholder</p>
+    <p><a class="btn btn-default btn-sm stats" role="button" data-pokeid="{{id}}">View Stats &raquo;</a>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+      <center><label>General Information</label></center><hr>
+      <div class="col-md-4">
+        <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p>
+        <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p>
+        <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p>
+      </div>
+      <div class="col-md-4">
+        <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p>
+        <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p>
+        <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p>
+      </div>
+    </div>
+  </div>
+  </script>
+
+  <script type="x-handlebars-template" id="pokestats-template">
+  <div class="col-md-4">
+    <h2>PokeStats</h2>
+    {{#stats}}
+    <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p>
+    {{/stats}}
   </div>
   </script>
 </body>
