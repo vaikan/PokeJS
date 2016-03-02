@@ -89,4 +89,32 @@ function setPokedexTemplate(dataObj) {
   var theTemplateScript = $('#poke-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
+
+
+  $('.stats').click(function() {
+    var pokeid = $(this).data('pokeid');
+    var url = 'http://pokeapi.co/api/v2/pokemon/'+pokeid;
+    getPokemonStats(url);
+  });
+}
+
+function getPokemonStats(url) {
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      setPokemonStatsTemplate(data);
+    }
+  });
+}
+
+function setPokemonStatsTemplate(data) {
+  var theTemplateScript = $('#pokestats-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#pokestats-table").append(theTemplate(data));
 }

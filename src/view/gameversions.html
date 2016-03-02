@@ -50,10 +50,6 @@
       </div>
     </div>
   </div>
-  <div class="container">
-    <table id="version-table" data-order="[[ 1, 'asc' ]]" data-page-length="10" class="table">
-    </table>
-  </div>
   <div id="gamever-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -68,6 +64,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="container">
+    <div class="row" id="version-table"></div>
   </div>
   <div class="container">
     <hr>
@@ -97,22 +96,13 @@
     });
   </script>
   <script type="x-handlebars-template" id="ver-template">
-    <thead id="thead">
-      <tr>
-        <th>Name</th>
-        <th>Details</th>
-      </tr>
-    </thead>
-    <tbody id="tbody">
-      {{#versions}}
-      <tr>
-        <td>{{FirstStringUpperCase name}}</td>
-        <td>
-          <a class="details" data-url="{{url}}" data-name="{{name}}">View Details</a>
-        </td>
-      </tr>
-      {{/versions}}
-    </tbody>
+    {{#versions}}
+    <div class="col-md-4">
+      <h2>{{FirstStringUpperCase name}}</h2>
+      <p>Some Description to be added later</p>
+      <p><a class="btn btn-default details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
+    </div>
+    {{/versions}}
   </script>
   <script type="x-handlebars-template" id="verdetails-template">
     <label>Generation: </label> {{FirstStringUpperCase generation.name}}
