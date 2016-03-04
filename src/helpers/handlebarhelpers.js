@@ -1,3 +1,9 @@
+/**
+ * FirstStringUpperCase - changes first character of the string to upper case except the Roman numericals which are all changed to upper case
+ * @param  {string} FirstStringUpperCase      name of the helper
+ * @param  {Function} function(data)          callback function with data as parameter
+ * @return {string} correctedCase             uppercased string
+ */
 Handlebars.registerHelper("FirstStringUpperCase", function(data) {
   var correctedCase;
   var stringArr = [];
