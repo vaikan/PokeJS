@@ -97,13 +97,13 @@
     });
   </script>
   <script type="x-handlebars-template" id="ver-template">
-    {{#versions}}
+    {{#versions.results}}
     <div class="col-md-4">
       <h2>{{FirstStringUpperCase name}}</h2>
       <p>Some Description to be added later</p>
       <p><a class="btn btn-default details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
     </div>
-    {{/versions}}
+    {{/versions.results}}
   </script>
   <script type="x-handlebars-template" id="verdetails-template">
     <label>Generation: </label> {{FirstStringUpperCase generation.name}}
