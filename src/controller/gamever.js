@@ -35,8 +35,10 @@ function getVersionNames() {
       },
       success: function(data) {
         storeGameVersions(data);
-        for (var v in data) {
-          var url = data[v].url;
+        console.log(data);
+        for (var v in data.results) {
+          var dat = data.results;
+          var url = dat[v].url;
           getGameDetails(url);
         }
       }
