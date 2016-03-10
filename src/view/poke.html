@@ -39,6 +39,7 @@
         <ul class="nav navbar-nav navbar-right">
           <li class="active"><a href="poke.html">Pokedex</a></li>
           <li><a href="gameversions.html">Game Versions</a></li>
+          <li><a href="regions.html">Pokemon Regions</a></li>
         </ul>
       </div>
       <!--/.navbar-collapse -->
@@ -70,7 +71,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="../controller/poke.js"></script>
-  <script src="../model/storage.js"></script>
+  <script src="../model/pokedex_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
@@ -85,35 +86,35 @@
     });
   </script>
   <script type="x-handlebars-template" id="poke-template">
-  <div class="col-md-4">
-    <h2>{{FirstStringUpperCase name}}: {{id}}</h2>
-    <p>Images placeholder</p>
-    <p><a class="btn btn-default btn-sm stats" role="button" data-pokeid="{{id}}">View Stats &raquo;</a>
-  </div>
-  <div class="col-md-8">
-    <div class="row">
-      <center><label>General Information</label></center><hr>
-      <div class="col-md-4">
-        <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p>
-        <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p>
-        <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p>
-      </div>
-      <div class="col-md-4">
-        <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p>
-        <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p>
-        <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p>
+    <div class="col-md-4">
+      <h2>{{FirstStringUpperCase name}}: {{id}}</h2>
+      <p>Images placeholder</p>
+      <p><a class="btn btn-default btn-sm stats" role="button" data-pokeid="{{id}}">View Stats &raquo;</a>
+    </div>
+    <div class="col-md-8">
+      <div class="row">
+        <center><label>General Information</label></center><hr>
+        <div class="col-md-4">
+          <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p>
+          <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p>
+          <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p>
+        </div>
+        <div class="col-md-4">
+          <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p>
+          <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p>
+          <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p>
+        </div>
       </div>
     </div>
-  </div>
   </script>
 
   <script type="x-handlebars-template" id="pokestats-template">
-  <div class="col-md-4">
-    <h2>PokeStats</h2>
-    {{#stats}}
-    <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p>
-    {{/stats}}
-  </div>
+    <div class="col-md-4">
+      <h2>PokeStats</h2>
+      {{#stats}}
+      <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p>
+      {{/stats}}
+    </div>
   </script>
 </body>
 

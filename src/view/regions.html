@@ -34,8 +34,8 @@
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav navbar-right">
           <li><a href="poke.html">Pokedex</a></li>
-          <li class="active"><a href="gameversions.html">Game Versions</a></li>
-          <li><a href="regions.html">Pokemon Regions</a></li>
+          <li><a href="gameversions.html">Game Versions</a></li>
+          <li class="active"><a href="regions.html">Pokemon Regions</a></li>
         </ul>
       </div>
       <!--/.navbar-collapse -->
@@ -45,7 +45,7 @@
     <div class="container">
       <div class="row">
         <div class="col-md-8">
-          <label>List all game versions:</label>
+          <label>List All Pokemon Regions:</label>
           <button id="btn-list" class="btn btn-primary">List 'em all!!</button>
         </div>
       </div>
@@ -67,7 +67,7 @@
     </div>
   </div>
   <div class="container">
-    <div class="row" id="version-table"></div>
+    <div class="row" id="region-table"></div>
   </div>
   <div class="container">
     <hr>
@@ -78,34 +78,34 @@
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-  <script src="../controller/gamever.js"></script>
-  <script src="../model/gameversion_model.js"></script>
+  <script src="../controller/regions.js"></script>
+  <script src="../model/region_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
-      var localStorageKey = localStorage.getItem('Game-Version');
+      var localStorageKey = localStorage.getItem('Regions');
       if (localStorageKey !== null) {
-        console.log('"Game-Version" is present in Local Storage');
+        console.log('"Regions" is present in Local Storage');
       } else {
-        getVersionNames();
+        getRegions();
       }
 
-      var getGameList = document.getElementById('btn-list');
-      getGameList.onclick = function() {
-        retrieveGameVersions();
+      var getRegionList = document.getElementById('btn-list');
+      getRegionList.onclick = function() {
+        retrieveRegions();
       };
     });
   </script>
-  <script type="x-handlebars-template" id="ver-template">
-    {{#versions}}
+  <script type="x-handlebars-template" id="region-template">
+    {{#results}}
     <div class="col-md-4">
       <h2>{{FirstStringUpperCase name}}</h2>
       <p>Some Description to be added later</p>
       <p><a class="btn btn-default details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
     </div>
-    {{/versions}}
+    {{/results}}
   </script>
-  <script type="x-handlebars-template" id="verdetails-template">
+  <!-- <script type="x-handlebars-template" id="verdetails-template">
     <label>Generation: </label> {{FirstStringUpperCase generation.name}}
     <hr>
     <label>Regions: </label>
@@ -117,6 +117,6 @@
     {{#versions}}
       {{FirstStringUpperCase name}} <br/>
     {{/versions}}
-  </script>
+  </script>-->
 </body>
 </html>
