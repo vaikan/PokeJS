@@ -37,7 +37,6 @@ function getRegionDetails(url, name) {
       },
       success: function(data) {
         storeRegionDetails(data.locations, name);
-        // TODO: add function for region details modal template
       }
     });
   }
@@ -87,22 +86,26 @@ function sortRegionFeatures(dataObj) {
       other_features.push(loc);
     }
   }
-  console.log('centers: ' + pop_center.length);
-  console.log(pop_center);
-  console.log('routes: ' + route.length);
-  console.log(route);
-  console.log('other_feautures: ' + other_features.length);
-  console.log(other_features);
-  console.log('island: ' + island.length);
-  console.log(island);
-  console.log('caves: ' + cave.length);
-  console.log(cave);
-  console.log('forest: ' + forest.length);
-  console.log(forest);
-  console.log('mountains: ' + mountains.length);
-  console.log(mountains);
-  console.log('tower: ' + tower.length);
-  console.log(tower);
-  console.log('lake: ' + lake.length);
-  console.log(lake);
+  var sortedData = {
+    'population_centers':pop_center,
+    'routes': route,
+    'other_features': other_features,
+    'islands': island,
+    'caves': cave,
+    'forests': forest,
+    'mountains': mountains,
+    'towers': tower,
+    'lakes': lake
+  };
+
+  setSortedFeaturesTemplate(sortedData);
+
+}
+
+function setSortedFeaturesTemplate(dataObj) {
+  console.log(dataObj);
+  var theTemplateScript = $('#sortedfeatures-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#sortedfeatures-body").append(theTemplate(dataObj));
+  $('#sortedfeatures-modal').modal();
 }

@@ -9,17 +9,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="../assets/img/favicon.ico" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/ripples.min.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <style>
     body {
       padding-top: 50px;
       padding-bottom: 20px;
     }
-    .modal-body {
-      max-height: calc(100vh - 210px);
-      overflow-y: auto;
-    }
   </style>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
   <script src="../assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
@@ -52,7 +51,7 @@
           <div class="form-group">
               <input type="text" class="form-control" id="input-id" value="" placeholder="Enter Pokemon Name">
           </div>
-          <button id="getdetails" class="btn btn-primary">Search</button>
+          <button id="getdetails" class="btn btn-raised btn-primary">Search</button>
         <!--</form>-->
       </div>
     </div>
@@ -69,12 +68,15 @@
   </div>
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="../controller/poke.js"></script>
   <script src="../model/pokedex_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
+      $.material.init();
       getPokemon();
       var getDetailsButton = document.getElementById('getdetails');
       getDetailsButton.onclick = function() {
@@ -93,7 +95,7 @@
     </div>
     <div class="col-md-8">
       <div class="row">
-        <center><label>General Information</label></center><hr>
+        <div class="card">
         <div class="col-md-4">
           <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p>
           <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p>
@@ -103,6 +105,7 @@
           <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p>
           <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p>
           <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p>
+        </div>
         </div>
       </div>
     </div>
