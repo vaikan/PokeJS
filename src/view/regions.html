@@ -9,13 +9,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="../assets/img/favicon.ico" rel="icon" type="image/x-icon" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/bootstrap-material-design.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/ripples.min.css">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
   <style>
     body {
       padding-top: 50px;
       padding-bottom: 20px;
     }
   </style>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
   <script src="../assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
@@ -46,22 +49,22 @@
       <div class="row">
         <div class="col-md-8">
           <label>List All Pokemon Regions:</label>
-          <button id="btn-list" class="btn btn-primary">List 'em all!!</button>
+          <button id="btn-list" class="btn btn-raised btn-primary">List 'em all!!</button>
         </div>
       </div>
     </div>
   </div>
-  <div id="gamever-modal" class="modal fade" role="dialog">
+  <div id="sortedfeatures-modal" class="modal fade" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h4 class="modal-title">Game-Version Details</h4>
         </div>
-        <div class="modal-body" id="gamever-body">
+        <div class="modal-body" id="sortedfeatures-body">
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-warning" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
@@ -77,12 +80,15 @@
   </div>
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="../controller/regions.js"></script>
   <script src="../model/region_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
+      $.material.init();
       var localStorageKey = localStorage.getItem('Regions');
       if (localStorageKey !== null) {
         console.log('"Regions" is present in Local Storage');
@@ -99,24 +105,149 @@
   <script type="x-handlebars-template" id="region-template">
     {{#results}}
     <div class="col-md-4">
-      <h2>{{FirstStringUpperCase name}}</h2>
-      <p>Some Description to be added later</p>
-      <p><a class="btn btn-default details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{FirstStringUpperCase name}}</h3>
+        </div>
+        <div class="panel-body">
+          <p>Some Description to be added later</p>
+        </div>
+        <p><a class="btn btn-info details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
+      </div>
     </div>
+
     {{/results}}
   </script>
-  <!-- <script type="x-handlebars-template" id="verdetails-template">
-    <label>Generation: </label> {{FirstStringUpperCase generation.name}}
-    <hr>
-    <label>Regions: </label>
-    {{#regions}}
-      {{FirstStringUpperCase name}} <br/>
-    {{/regions}}
-    <hr>
-    <label>Games: </label>
-    {{#versions}}
-      {{FirstStringUpperCase name}} <br/>
-    {{/versions}}
-  </script>-->
+  <script type="x-handlebars-template" id="sortedfeatures-template">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+          <h4 class="panel-title">
+            <a>Population Centers</a>
+          </h4>
+        </div>
+        <div id="collapse1" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#population_centers}}
+              <p>{{this}}</p>
+            {{/population_centers}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+          <h4 class="panel-title">
+            <a>Routes</a>
+          </h4>
+        </div>
+        <div id="collapse2" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#routes}}
+              <p>{{this}}</p>
+            {{/routes}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+          <h4 class="panel-title">
+            <a>Islands</a>
+          </h4>
+        </div>
+        <div id="collapse3" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#islands}}
+              <p>{{this}}</p>
+            {{/islands}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+          <h4 class="panel-title">
+            <a>Caves</a>
+          </h4>
+        </div>
+        <div id="collapse4" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#caves}}
+              <p>{{this}}</p>
+            {{/caves}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse5">
+          <h4 class="panel-title">
+            <a>Forests</a>
+          </h4>
+        </div>
+        <div id="collapse5" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#forests}}
+              <p>{{this}}</p>
+            {{/forests}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse6">
+          <h4 class="panel-title">
+            <a>Mountains</a>
+          </h4>
+        </div>
+        <div id="collapse6" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#mountains}}
+              <p>{{this}}</p>
+            {{/mountains}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse7">
+          <h4 class="panel-title">
+            <a>Towers</a>
+          </h4>
+        </div>
+        <div id="collapse7" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#towers}}
+              <p>{{this}}</p>
+            {{/towers}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse8">
+          <h4 class="panel-title">
+            <a>Lakes</a>
+          </h4>
+        </div>
+        <div id="collapse8" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#lakes}}
+              <p>{{this}}</p>
+            {{/lakes}}
+          </div>
+        </div>
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse9">
+          <h4 class="panel-title">
+            <a>Other Locations/Features</a>
+          </h4>
+        </div>
+        <div id="collapse9" class="panel-collapse collapse">
+          <div class="panel-body">
+            {{#other_features}}
+              <p>{{this}}</p>
+            {{/other_features}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </script>
 </body>
 </html>

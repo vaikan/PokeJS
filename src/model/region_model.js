@@ -44,7 +44,6 @@ function retrieveRegionDetails(indexName) {
   } else {
     var data = localStorage.getItem(indexName);
     var parseJSON = JSON.parse(data);
-    // TODO: place it to controller file after testing it
     sortRegionFeatures(parseJSON);
   }
 }
