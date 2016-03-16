@@ -103,7 +103,7 @@ function sortRegionFeatures(dataObj) {
 }
 
 function setSortedFeaturesTemplate(dataObj) {
-  console.log(dataObj);
+  $('#sortedfeatures-body').empty();
   var theTemplateScript = $('#sortedfeatures-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#sortedfeatures-body").append(theTemplate(dataObj));
