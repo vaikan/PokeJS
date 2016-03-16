@@ -120,7 +120,7 @@
   </script>
   <script type="x-handlebars-template" id="sortedfeatures-template">
     <div class="panel-group" id="accordion">
-      <div class="panel panel-default">
+      <div class="panel panel-primary">
         <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
           <h4 class="panel-title">
             <a>Population Centers</a>
@@ -129,7 +129,7 @@
         <div id="collapse1" class="panel-collapse collapse">
           <div class="panel-body">
             {{#population_centers}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/population_centers}}
           </div>
         </div>
@@ -143,7 +143,7 @@
         <div id="collapse2" class="panel-collapse collapse">
           <div class="panel-body">
             {{#routes}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/routes}}
           </div>
         </div>
@@ -157,7 +157,7 @@
         <div id="collapse3" class="panel-collapse collapse">
           <div class="panel-body">
             {{#islands}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/islands}}
           </div>
         </div>
@@ -171,7 +171,7 @@
         <div id="collapse4" class="panel-collapse collapse">
           <div class="panel-body">
             {{#caves}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/caves}}
           </div>
         </div>
@@ -185,7 +185,7 @@
         <div id="collapse5" class="panel-collapse collapse">
           <div class="panel-body">
             {{#forests}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/forests}}
           </div>
         </div>
@@ -199,7 +199,7 @@
         <div id="collapse6" class="panel-collapse collapse">
           <div class="panel-body">
             {{#mountains}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/mountains}}
           </div>
         </div>
@@ -213,7 +213,7 @@
         <div id="collapse7" class="panel-collapse collapse">
           <div class="panel-body">
             {{#towers}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/towers}}
           </div>
         </div>
@@ -227,7 +227,7 @@
         <div id="collapse8" class="panel-collapse collapse">
           <div class="panel-body">
             {{#lakes}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/lakes}}
           </div>
         </div>
@@ -241,7 +241,7 @@
         <div id="collapse9" class="panel-collapse collapse">
           <div class="panel-body">
             {{#other_features}}
-              <p>{{this}}</p>
+              <p>{{FirstStringUpperCase this}}</p>
             {{/other_features}}
           </div>
         </div>
