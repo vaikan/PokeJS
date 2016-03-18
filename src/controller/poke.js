@@ -5,7 +5,8 @@
  */
 function getPokemon(name) {
   if (localStorage.getItem('Pokedex') !== null) {
-    console.log('Pokedex present in Local Storage');
+    //console.log('Pokedex present in Local Storage');
+    $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
   } else {
     var sendURI;
     var url = 'http://pokeapi.co/api/v2/pokedex/1';

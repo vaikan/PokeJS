@@ -11,14 +11,10 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/ripples.min.css">
+  <link rel="stylesheet" href="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
-  <style>
-    body {
-      padding-top: 50px;
-      padding-bottom: 20px;
-    }
-  </style>
   <script src="../assets/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 </head>
 
@@ -46,19 +42,24 @@
   </nav>
   <div class="jumbotron">
     <div class="container">
-      <div class="row col-md-4">
-        <!--<form class="navbar-form navbar-right">-->
-          <div class="form-group">
-              <input type="text" class="form-control" id="input-id" value="" placeholder="Enter Pokemon Name">
+      <div class="row col-md-6">
+        <div class="form-group label-floating">
+          <div class="input-group">
+            <label class="control-label">Enter Pokemon Name</label>
+            <input type="text" class="form-control" id="input-id" value="">
+            <span class="input-group-btn">
+              <button type="button" class="btn btn-fab btn-primary btn-fab-mini" id="getdetails">
+                <i class="material-icons">send</i>
+              </button>
+            </span>
           </div>
-          <button id="getdetails" class="btn btn-raised btn-primary">Search</button>
-        <!--</form>-->
+        </div>
       </div>
     </div>
   </div>
   <div class="container">
     <div class="row" id="pokedex-table"></div>
-    <div class="row" id="pokestats-table"></div>
+    <!-- <div class="row" id="pokestats-table"></div> -->
   </div>
   <div class="container">
     <hr>
@@ -71,6 +72,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../controller/poke.js"></script>
   <script src="../model/pokedex_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
@@ -89,32 +91,50 @@
   </script>
   <script type="x-handlebars-template" id="poke-template">
     <div class="col-md-4">
-      <h2>{{FirstStringUpperCase name}}: {{id}}</h2>
-      <p>Images placeholder</p>
-      <p><a class="btn btn-default btn-sm stats" role="button" data-pokeid="{{id}}">View Stats &raquo;</a>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{FirstStringUpperCase name}}: {{id}}</h3>
+      </div>
+      <div class="panel-body">
+        <img src="#" placeholder="Image placeholder"></img>
+      </div>
+      <p><a class="btn btn-info btn-sm stats" role="button" data-pokeid="{{id}}">View Stats &raquo;</a></p>
+    </div>
+
     </div>
     <div class="col-md-8">
       <div class="row">
-        <div class="col-md-4">
-          <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p>
-          <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p>
-          <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">General Information</h3>
+            </div>
+            <div class="panel-body">
+              <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p><hr/>
+              <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p><hr/>
+              <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p><hr/>
+              <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p><hr/>
+              <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p><hr/>
+              <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p><hr/>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4">
-          <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p>
-          <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p>
-          <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p>
-        </div>
+        <div class="col-md-6" id="pokestats-table"></div>
+
       </div>
     </div>
   </script>
 
   <script type="x-handlebars-template" id="pokestats-template">
-    <div class="col-md-4">
-      <h2>PokeStats</h2>
-      {{#stats}}
-      <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p>
-      {{/stats}}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Stats</h3>
+      </div>
+      <div class="panel-body">
+        {{#stats}}
+          <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p><hr>
+        {{/stats}}
+      </div>
     </div>
   </script>
 </body>

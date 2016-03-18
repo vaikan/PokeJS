@@ -12,7 +12,8 @@ function storePokedex(pokedexObj) {
       localStorage.setItem('Pokedex', jsonString);
       console.log('New key "Pokedex" added to Local Storage');
     } else {
-      console.log('Pokedex is present in localStorage');
+      //console.log('Pokedex is present in localStorage');
+      $.snackbar({content: "'Pokedex' is present in LocalStorage", timeout: 10000});
     }
   }
 }
