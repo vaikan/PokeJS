@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/bootstrap-material-design.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/css/ripples.min.css">
+  <link rel="stylesheet" href="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Roboto:300,400,500,700">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
@@ -78,22 +79,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+  <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../controller/gamever.js"></script>
   <script src="../model/gameversion_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
       $.material.init();
-      var localStorageKey = localStorage.getItem('Game-Version');
-      if (localStorageKey !== null) {
-        console.log('"Game-Version" is present in Local Storage');
+
+      if (!window.localStorage) {
+        $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
       } else {
-        getVersionNames();
+        var localStorageKey = localStorage.getItem('Game-Version');
+        if (localStorageKey !== null) {
+          console.log('"Game-Version" is present in Local Storage');
+          retrieveGameVersions();
+        } else {
+          getVersionNames();
+        }
       }
 
       var getGameList = document.getElementById('btn-list');
       getGameList.onclick = function() {
-        retrieveGameVersions();
+        if ($('version-table').is(':empty')) {
+          retrieveGameVersions();
+        } else {
+          $.snackbar({content: "Game Versions are already displayed", timeout: 10000});
+        }
+
       };
     });
   </script>

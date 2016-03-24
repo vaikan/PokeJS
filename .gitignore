@@ -6,3 +6,5 @@ node_modules
 icons
 background.js
 manifest.json
+src/assets/js/paginate.js
+src/assets/js/randomize.js

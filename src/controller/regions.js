@@ -15,7 +15,6 @@ function getRegions() {
         }
       },
       success: function(data) {
-        console.log(data);
         storeRegions(data);
       }
     });

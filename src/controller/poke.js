@@ -5,7 +5,6 @@
  */
 function getPokemon(name) {
   if (localStorage.getItem('Pokedex') !== null) {
-    //console.log('Pokedex present in Local Storage');
     $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
   } else {
     var sendURI;
@@ -53,37 +52,35 @@ function getPokeDetails(name) {
       }
     },
     success: function(data) {
-      console.log(data);
       setPokedexTemplate(data);
     }
   });
 }
 
-function getAllPokeDetails() {
-  var url;
-  var pokedexObj = retrievePokedex();
-  var pokeEntry = pokedexObj.pokemon_entries;
+function getRandomPokemon() {
+  var random1 = Math.floor(Math.random() * (721));
+  var random2 = Math.floor(Math.random() * (721));
+  var random3 = Math.floor(Math.random() * (721));
+
+  var randomNumberArr = [random1, random2, random3];
+  var pokemonList = retrievePokemonNames();
+  var pokeEntry = pokemonList.pokemon_entries;
+  var data = [];
 
   for (var p in pokeEntry) {
-    var pokename = pokeEntry[p].pokemon_species.name;
-    url = pokeEntry[p].pokemon_species.url;
-    getDetailsAJAX(pokename, url);
-  }
-}
+    var pokeid = pokeEntry[p].entry_number;
 
-function getDetailsAJAX(pokename, url) {
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
+    for (var num in randomNumberArr) {
+      if (pokeid === randomNumberArr[num]) {
+        data.push({
+          'pokeid':pokeid,
+          'name':pokeEntry[p].pokemon_species.name,
+          'url':pokeEntry[p].pokemon_species.url
+        });
       }
-    },
-    success: function(data) {
-      console.log(data);
     }
-  });
+  }
+  setPokemonTemplate(data);
 }
 
 function setPokedexTemplate(dataObj) {
@@ -91,11 +88,14 @@ function setPokedexTemplate(dataObj) {
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
 
-
   $('.stats').click(function() {
-    var pokeid = $(this).data('pokeid');
-    var url = 'http://pokeapi.co/api/v2/pokemon/'+pokeid;
-    getPokemonStats(url);
+    if (!$('#pokestats-table').is(':empty')) {
+      $.snackbar({content: "Pokemon Stats are already displayed", timeout: 10000});
+    } else {
+      var pokeid = $(this).data('pokeid');
+      var url = 'http://pokeapi.co/api/v2/pokemon/'+pokeid;
+      getPokemonStats(url);
+    }
   });
 }
 
@@ -115,7 +115,15 @@ function getPokemonStats(url) {
 }
 
 function setPokemonStatsTemplate(data) {
+  $("#pokestats-table").empty();
   var theTemplateScript = $('#pokestats-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokestats-table").append(theTemplate(data));
+}
+
+function setPokemonTemplate(data) {
+  $("#pokemon-table").empty();
+  var theTemplateScript = $('#pokemon-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#pokemon-table").append(theTemplate(data));
 }

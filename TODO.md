@@ -11,3 +11,5 @@
 - [x] Fix modal bug of "type" where old data is not removed before adding new data
 
 - Find way to make it Offline capable [indexedDB, service workers]
+
+- Fix the pagination for Pokemon list
