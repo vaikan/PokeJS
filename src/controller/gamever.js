@@ -35,7 +35,6 @@ function getVersionNames() {
       },
       success: function(data) {
         storeGameVersions(data);
-        console.log(data);
         for (var v in data.results) {
           var dat = data.results;
           var url = dat[v].url;

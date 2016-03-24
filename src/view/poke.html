@@ -59,7 +59,13 @@
   </div>
   <div class="container">
     <div class="row" id="pokedex-table"></div>
-    <!-- <div class="row" id="pokestats-table"></div> -->
+  </div>
+  <div class="container">
+    <div class="row" id="pokemon-table"></div>
+    <!-- <p class="demo demo3"></p> -->
+    <div class="row span6">
+      <ul class="pagination"></ul>
+    </div>
   </div>
   <div class="container">
     <hr>
@@ -71,6 +77,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
+  <script type="text/javascript" src="../assets/js/paginate.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../controller/poke.js"></script>
@@ -79,14 +86,24 @@
   <script>
     $(function() {
       $.material.init();
-      getPokemon();
-      var getDetailsButton = document.getElementById('getdetails');
-      getDetailsButton.onclick = function() {
-        $('#pokedex-table').empty();
-        $('#pokestats-table').empty();
-        var name = document.getElementById("input-id").value;
-        getPokeDetails(name.toLowerCase());
-      };
+      if (!window.localStorage) {
+        $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
+      } else {
+        getPokemon();
+        getRandomPokemon();
+
+        var getDetailsButton = document.getElementById('getdetails');
+        getDetailsButton.onclick = function() {
+          $('#pokedex-table').empty();
+          $('#pokestats-table').empty();
+          var name = document.getElementById("input-id").value;
+          getPokeDetails(name.toLowerCase());
+        };
+
+        $('#closePanel').click(function() {
+          $('#pokemon-table').empty();
+        })
+      }
     });
   </script>
   <script type="x-handlebars-template" id="poke-template">
@@ -136,6 +153,31 @@
         {{/stats}}
       </div>
     </div>
+  </script>
+  <script type="x-handlebars-template" id="pokemon-template">
+  <div class="col-md-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <button type="button" class="close" id="closePanel">&times;</button>
+        <h3 class="panel-title">Some Interesting Pokemons</h3>
+      </div>
+      <div class="panel-body">
+      {{#this}}
+      <div class="col-md-4">
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <h3 class="panel-title">{{FirstStringUpperCase name}} : {{pokeid}}</h3>
+          </div>
+          <div class="panel-body">
+            <p>Some Description to be added later</p>
+          </div>
+          <p><a class="btn btn-info details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
+        </div>
+      </div>
+      {{/this}}
+      </div>
+    </div>
+  </div>
   </script>
 </body>
 </html>
