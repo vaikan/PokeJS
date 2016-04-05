@@ -88,15 +88,8 @@ function setPokedexTemplate(dataObj) {
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
 
-  $('.stats').click(function() {
-    if (!$('#pokestats-table').is(':empty')) {
-      $.snackbar({content: "Pokemon Stats are already displayed", timeout: 10000});
-    } else {
-      var pokeid = $(this).data('pokeid');
-      var url = 'http://pokeapi.co/api/v2/pokemon/'+pokeid;
-      getPokemonStats(url);
-    }
-  });
+  var url = 'http://pokeapi.co/api/v2/pokemon/'+dataObj.id;
+  getPokemonStats(url);
 }
 
 function getPokemonStats(url) {
