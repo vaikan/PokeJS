@@ -14,7 +14,8 @@ function storePokedex(pokedexObj) {
 }
 
 /**
- * retrieve pokedex details from the local storage
+ * retrievePokedex retrieve pokedex details from the local storage
+ * @return {Object} parsed JSON data objects
  */
 function retrievePokedex() {
   var data = localStorage.getItem('Pokedex');
@@ -22,6 +23,10 @@ function retrievePokedex() {
   return parseJSON;
 }
 
+/**
+ * retrievePokemonNames retrieve pokemon names from the local storage
+ * @return {Object} parsed JSON data objects
+ */
 function retrievePokemonNames() {
   var data = localStorage.getItem('Pokedex');
   var parseJSON = JSON.parse(data);

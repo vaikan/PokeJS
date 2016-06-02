@@ -1,6 +1,6 @@
 /**
  * store pokemon gameversion to the local storage
- * @param  {Object} versionObj pokemon game version object
+ * @param  {Object} versionObj    pokemon game version object
  */
 function storeGameVersions(versionObj) {
   var jsonString = JSON.stringify(versionObj);
@@ -15,7 +15,7 @@ function storeGameVersions(versionObj) {
 
 /**
  * store version details in the local storage
- * @param  {Object} versiongroup version details object
+ * @param  {Object}     versiongroup version details object
  */
 function storeGameDetails(versiongroup) {
   var jsonString = JSON.stringify(versiongroup);
@@ -37,7 +37,8 @@ function retrieveGameVersions() {
 }
 
 /**
- * retrieve game version from the local storage
+ * retrieve game version details from the local storage
+ * @param {String} name     game version name string
  */
 function retrieveGameVersionsModalDetails(name) {
   var gameName = 'Game-Version-'+name;

@@ -112,6 +112,7 @@ function setPokemonStatsTemplate(data) {
   var theTemplateScript = $('#pokestats-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokestats-table").append(theTemplate(data));
+  $('#poke-sprite').attr('src', data.sprites.front_default);
 }
 
 function setPokemonTemplate(data) {

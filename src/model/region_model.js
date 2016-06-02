@@ -1,3 +1,7 @@
+/**
+ * storeRegions store pokemon regions in the local storage
+ * @param  {Object} regionObj region data object
+ */
 function storeRegions(regionObj) {
   var jsonString = JSON.stringify(regionObj);
   if (localStorage.getItem('Regions') === null) {
@@ -8,6 +12,12 @@ function storeRegions(regionObj) {
     console.log('"Regions" is already in Local Storage');
   }
 }
+
+/**
+ * storeRegionDetails store all region's details in the local storage
+ * @param  {Object} regionObj region data object
+ * @param  {String} name      region name string
+ */
 
 function storeRegionDetails(regionObj, name) {
   var jsonString = '{"locations": ' + JSON.stringify(regionObj) + '}';
@@ -21,12 +31,19 @@ function storeRegionDetails(regionObj, name) {
   }
 }
 
+/**
+ * retrieveRegions retrieve region data from the local storage
+ */
 function retrieveRegions() {
   var data = localStorage.getItem('Regions');
   var parseJSON = JSON.parse(data);
-  setRegionTemplate(parseJSON);
+  setRegionTemplate(parseJSON);  
 }
 
+/**
+ * retrieveRegionDetails retrieve specific region details from the local storage
+ * @param  {String} indexName region indexname for retrieving region data
+ */
 function retrieveRegionDetails(indexName) {
   var data = localStorage.getItem(indexName);
   var parseJSON = JSON.parse(data);
