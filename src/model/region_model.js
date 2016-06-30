@@ -11,6 +11,7 @@ function storeRegions(regionObj) {
   } else {
     console.log('"Regions" is already in Local Storage');
   }
+  console.log('storeRegions model');
 }
 
 /**
@@ -35,9 +36,8 @@ function storeRegionDetails(regionObj, name) {
  * retrieveRegions retrieve region data from the local storage
  */
 function retrieveRegions() {
-  var data = localStorage.getItem('Regions');
-  var parseJSON = JSON.parse(data);
-  setRegionTemplate(parseJSON);  
+  var res = db.getData('Regions');
+  setRegionTemplate(res);
 }
 
 /**

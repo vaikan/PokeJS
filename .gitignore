@@ -8,3 +8,8 @@ background.js
 manifest.json
 src/assets/js/paginate.js
 src/assets/js/randomize.js
+app.log
+src/model/pokedex_model.js
+src/model/region_model.js
+src/model/gameversion_model.js
+src/model

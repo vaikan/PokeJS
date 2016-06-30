@@ -43,10 +43,7 @@
   <div class="jumbotron">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-          <label>List All Pokemon Regions:</label>
-          <button id="btn-list" class="btn btn-raised btn-primary">List 'em all!!</button>
-        </div>
+        <div class="col-md-8"></div>
       </div>
     </div>
   </div>
@@ -80,8 +77,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
+  <script src="../modules/db.js" charset="utf-8"></script>
   <script src="../controller/regions.js"></script>
-  <script src="../model/region_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
@@ -92,16 +89,12 @@
         var localStorageKey = localStorage.getItem('Regions');
         if (localStorageKey !== null) {
           console.log('"Regions" is present in Local Storage');
-          retrieveRegions();
+          var res = db.getData('Regions');
+          setRegionTemplate(res);
         } else {
           getRegions();
         }
       }
-
-      // var getRegionList = document.getElementById('btn-list');
-      // getRegionList.onclick = function() {
-      //   retrieveRegions();
-      // };
     });
   </script>
   <script type="x-handlebars-template" id="region-template">

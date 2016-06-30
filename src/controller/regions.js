@@ -15,15 +15,17 @@ function getRegions() {
         }
       },
       success: function(data) {
-        storeRegions(data);
+        db.storeData(data, 'Regions');
+        var res = db.getData('Regions');
+        setRegionTemplate(res);
       }
     });
   }
 }
 
 function getRegionDetails(url, name) {
-  if (localStorage.getItem('Region-'+name) !== null) {
-    var indexName = 'Region-'+name;
+  var indexName = 'Region-'+name;
+  if (localStorage.getItem(indexName) !== null) {
     retrieveRegionDetails(indexName);
   } else {
     $.ajax({
@@ -35,7 +37,11 @@ function getRegionDetails(url, name) {
         }
       },
       success: function(data) {
-        storeRegionDetails(data.locations, name);
+        var jsonString = '{"locations": ' + JSON.stringify(data.locations) + '}';
+        var jsonObj = JSON.parse(jsonString);
+        db.storeData(jsonObj, indexName);
+        var res = db.getData(indexName);
+        sortRegionFeatures(res);
       }
     });
   }

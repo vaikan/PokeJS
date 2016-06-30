@@ -43,10 +43,7 @@
   <div class="jumbotron">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-          <label>List all game versions:</label>
-          <button id="btn-list" class="btn btn-raised btn-primary">List 'em all!!</button>
-        </div>
+        <div class="col-md-8"></div>
       </div>
     </div>
   </div>
@@ -80,8 +77,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
+  <script src="../modules/db.js"></script>
   <script src="../controller/gamever.js"></script>
-  <script src="../model/gameversion_model.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
@@ -93,21 +90,14 @@
         var localStorageKey = localStorage.getItem('Game-Version');
         if (localStorageKey !== null) {
           console.log('"Game-Version" is present in Local Storage');
-          retrieveGameVersions();
+          var res = db.getData('Game-Version');
+          var resString = JSON.stringify(res);
+          var formatttedData = '{"versions":' + resString + '}';
+          setVersionTemplate(formatttedData);
         } else {
           getVersionNames();
         }
       }
-
-      var getGameList = document.getElementById('btn-list');
-      getGameList.onclick = function() {
-        if ($('version-table').is(':empty')) {
-          retrieveGameVersions();
-        } else {
-          $.snackbar({content: "Game Versions are already displayed", timeout: 10000});
-        }
-
-      };
     });
   </script>
   <script type="x-handlebars-template" id="ver-template">
