@@ -6,6 +6,7 @@
 function getPokemon(name) {
   if (localStorage.getItem('Pokedex') !== null) {
     $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
+    getRandomPokemon();
   } else {
     var sendURI;
     var url = 'http://pokeapi.co/api/v2/pokedex/1';
@@ -18,7 +19,7 @@ function getPokemon(name) {
         }
       },
       success: function(data) {
-        storePokedex(data);
+        db.storeData(data, 'Pokedex');
         // TODO: find a way to add all pokemon data into user stored db like indexed db.
       }
     });
@@ -32,7 +33,7 @@ function getPokemon(name) {
  */
 function getPokeDetails(name) {
   var url;
-  var pokedexObj = retrievePokedex();
+  var pokedexObj = db.getData('Pokedex');
   var pokeEntry = pokedexObj.pokemon_entries;
 
   for (var p in pokeEntry) {
@@ -63,7 +64,7 @@ function getRandomPokemon() {
   var random3 = Math.floor(Math.random() * (721));
 
   var randomNumberArr = [random1, random2, random3];
-  var pokemonList = retrievePokemonNames();
+  var pokemonList = db.getData('Pokedex');
   var pokeEntry = pokemonList.pokemon_entries;
   var data = [];
 
@@ -83,15 +84,6 @@ function getRandomPokemon() {
   setPokemonTemplate(data);
 }
 
-function setPokedexTemplate(dataObj) {
-  var theTemplateScript = $('#poke-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#pokedex-table").append(theTemplate(dataObj));
-
-  var url = 'http://pokeapi.co/api/v2/pokemon/'+dataObj.id;
-  getPokemonStats(url);
-}
-
 function getPokemonStats(url) {
   $.ajax({
     url: url,
@@ -107,6 +99,16 @@ function getPokemonStats(url) {
   });
 }
 
+function setPokedexTemplate(dataObj) {
+  $('#pokedex-table').empty();
+  var theTemplateScript = $('#poke-template').html();
+  var theTemplate = Handlebars.compile(theTemplateScript);
+  $("#pokedex-table").append(theTemplate(dataObj));
+
+  var url = 'http://pokeapi.co/api/v2/pokemon/'+dataObj.id;
+  getPokemonStats(url);
+}
+
 function setPokemonStatsTemplate(data) {
   $("#pokestats-table").empty();
   var theTemplateScript = $('#pokestats-template').html();
@@ -120,4 +122,8 @@ function setPokemonTemplate(data) {
   var theTemplateScript = $('#pokemon-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokemon-table").append(theTemplate(data));
+  $('.details').click(function() {
+    var name = $(this).data('name');
+    getPokeDetails(name);
+  });
 }

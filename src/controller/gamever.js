@@ -1,23 +1,4 @@
 /**
- * get and store game version details
- * @param  {string} url resource url for game versions
- */
-function getGameDetails(url) {
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
-      }
-    },
-    success: function(data) {
-      storeGameDetails(data);
-    }
-  });
-}
-
-/**
  * get game version-group details
  */
 function getVersionNames() {
@@ -34,19 +15,33 @@ function getVersionNames() {
         }
       },
       success: function(data) {
-        storeGameVersions(data);
-        for (var v in data.results) {
-          var dat = data.results;
-          var url = dat[v].url;
-          getGameDetails(url);
-        }
+        db.storeData(data, 'Game-Version');
+        var res = db.getData('Game-Version');
+        var resString = JSON.stringify(res);
+        var formatttedData = '{"versions":' + resString + '}';
+        setVersionTemplate(formatttedData);
       }
     });
   }
 }
 
 function getGameVersionDetails(url, name) {
-  retrieveGameVersionsModalDetails(name);
+  $.ajax({
+    url: url,
+    type: 'GET',
+    error: function(jqXHR, textStatus, errorThrown) {
+      if (textStatus === 'error') {
+        console.log(textStatus);
+      }
+    },
+    success: function(data) {
+      var storeName = 'Game-Version-'+name;
+      db.storeData(data, storeName);
+      var res = db.getData(storeName);
+      console.log(res);
+      setVersionDetailsTemplate(res);
+    }
+  });
 }
 
 function setVersionTemplate(dataObj) {
@@ -63,9 +58,8 @@ function setVersionTemplate(dataObj) {
 
 function setVersionDetailsTemplate(dataObj) {
   $('#gamever-body').empty();
-  var parseJSON = JSON.parse(dataObj);
   var theTemplateScript = $('#verdetails-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#gamever-body").append(theTemplate(parseJSON));
+  $("#gamever-body").append(theTemplate(dataObj));
   $('#gamever-modal').modal();
 }
