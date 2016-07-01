@@ -32,18 +32,7 @@ function getPokemon(name) {
  * @return {Object}            Pokemon details
  */
 function getPokeDetails(name) {
-  var url;
-  var pokedexObj = db.getData('Pokedex');
-  var pokeEntry = pokedexObj.pokemon_entries;
-
-  for (var p in pokeEntry) {
-    var pokename = pokeEntry[p].pokemon_species.name;
-
-    if (name.toLowerCase() === pokename) {
-      url = pokeEntry[p].pokemon_species.url;
-    }
-  }
-
+  var url = 'http://pokeapi.co/api/v2/pokemon-species/'+name;
   $.ajax({
     url: url,
     type: 'GET',
@@ -53,6 +42,8 @@ function getPokeDetails(name) {
       }
     },
     success: function(data) {
+      var url = 'http://pokeapi.co/api/v2/pokemon/'+name;
+      getPokemonStats(url);
       setPokedexTemplate(data);
     }
   });
@@ -104,9 +95,6 @@ function setPokedexTemplate(dataObj) {
   var theTemplateScript = $('#poke-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
-
-  var url = 'http://pokeapi.co/api/v2/pokemon/'+dataObj.id;
-  getPokemonStats(url);
 }
 
 function setPokemonStatsTemplate(data) {

@@ -30,6 +30,8 @@ Handlebars.registerHelper("FirstStringUpperCase", function(data) {
       }
       if (stringArr.length === 2) {
         correctedCase = stringArr[0]+'-'+stringArr[1];
+      } else if (stringArr.length === 3) {
+        correctedCase = stringArr[0]+'-'+stringArr[1]+'-'+stringArr[2];
       } else {
         correctedCase = stringArr[0]+'-'+stringArr[1]+'-'+stringArr[2]+'-'+stringArr[3];
       }
