@@ -104,7 +104,6 @@ function sortRegionFeatures(dataObj) {
   };
 
   setSortedFeaturesTemplate(sortedData);
-
 }
 
 function setSortedFeaturesTemplate(dataObj) {
