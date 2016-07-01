@@ -64,33 +64,14 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../controller/poke.js"></script>
-  <!-- <script src="../model/pokedex_model.js"></script> -->
   <script src="../controller/gamever.js"></script>
-  <!-- <script src="../model/gameversion_model.js"></script> -->
   <script src="../controller/regions.js"></script>
-  <!-- <script src="../model/region_model.js"></script> -->
   <script type="text/javascript">
     $(function() {
       $.material.init();
       if (!window.localStorage) {
         $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
-      // } else {
-      //   getPokemon();
-      //
-      //   var localStorageKeyGame = localStorage.getItem('Game-Version');
-      //   if (localStorageKeyGame == null) {
-      //     getVersionNames();
-      //   } else {
-      //     $.snackbar({content: "'Game-Version' is already stored in Local Storage", timeout: 10000});
-      //   }
-      //
-      //   var localStorageKeyRegion = localStorage.getItem('Regions');
-      //   if (localStorageKeyRegion == null) {
-      //     getRegions();
-      //   } else {
-      //     $.snackbar({content: "'Regions' is already stored in Local Storage", timeout: 10000});
-      //   }
-      // }
+      }
     });
   </script>
 </body>
