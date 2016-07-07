@@ -26,7 +26,8 @@ function getRegions() {
 function getRegionDetails(url, name) {
   var indexName = 'Region-'+name;
   if (localStorage.getItem(indexName) !== null) {
-    retrieveRegionDetails(indexName);
+    var res = db.getData(indexName);
+    sortRegionFeatures(res);
   } else {
     $.ajax({
       url: url,
