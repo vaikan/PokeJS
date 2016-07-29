@@ -62,7 +62,6 @@
   </div>
   <div class="container">
     <div class="row" id="pokemon-table"></div>
-    <!-- <p class="demo demo3"></p> -->
     <div class="row span6">
       <ul class="pagination"></ul>
     </div>
@@ -80,11 +79,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../modules/db.js"></script>
+  <script src="../modules/indexdb.js"></script>
+  <script src="../modules/pokedetailmerge.js"></script>
   <script src="../controller/poke.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
   <script>
     $(function() {
       $.material.init();
+
+      pokeDB.open();
+
       if (!window.localStorage) {
         $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
       } else {
@@ -103,15 +107,15 @@
   </script>
   <script type="x-handlebars-template" id="poke-template">
     <div class="col-md-4">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">{{FirstStringUpperCase name}}: {{id}}</h3>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><b>{{FirstStringUpperCase name}}: {{id}}</b> | Evolved From: <b>{{FirstStringUpperCase evolves_from}}</b></h3>
+        </div>
+        <div class="panel-body">
+          <img src="{{sprite}}" id="poke-sprite" placeholder="Image placeholder"></img>
+          <p>{{desc}}</p>
+        </div>
       </div>
-      <div class="panel-body">
-        <img src="" id="poke-sprite" placeholder="Image placeholder"></img>
-      </div>
-    </div>
-
     </div>
     <div class="col-md-8">
       <div class="row">
@@ -121,32 +125,31 @@
               <h3 class="panel-title">General Information</h3>
             </div>
             <div class="panel-body">
-              <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color.name}}</p><hr/>
-              <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape.name}}</p><hr/>
-              <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat.name}}</p><hr/>
-              <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation.name}}</p><hr/>
-              <p><label>Egg Group:&nbsp;</label>{{#egg_groups}}{{FirstStringUpperCase name}}<br/>{{/egg_groups}}</p><hr/>
-              <p><label>Evolved From:&nbsp;</label>{{FirstStringUpperCase evolves_from_species.name}}</p><hr/>
+              <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color}}</p><hr/>
+              <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape}}</p><hr/>
+              <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat}}</p><hr/>
+              <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation}}</p><hr/>
+              <p><label>Height:&nbsp;</label>{{height}}</p><hr/>
+              <p><label>Weight:&nbsp;</label>{{weight}}</p><hr/>
             </div>
           </div>
         </div>
-        <div class="col-md-6" id="pokestats-table"></div>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Stats</h3>
+            </div>
+            <div class="panel-body">
+              {{#stats}}
+                <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p><hr>
+              {{/stats}}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </script>
 
-  <script type="x-handlebars-template" id="pokestats-template">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">Stats</h3>
-      </div>
-      <div class="panel-body">
-        {{#stats}}
-          <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p><hr>
-        {{/stats}}
-      </div>
-    </div>
-  </script>
   <script type="x-handlebars-template" id="pokemon-template">
   <div class="col-md-12">
     <div class="panel panel-default">

@@ -8,7 +8,6 @@ function getPokemon(name) {
     $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
     getRandomPokemon();
   } else {
-    var sendURI;
     var url = 'http://pokeapi.co/api/v2/pokedex/1';
     $.ajax({
       url: url,
@@ -32,21 +31,7 @@ function getPokemon(name) {
  * @return {Object}            Pokemon details
  */
 function getPokeDetails(name) {
-  var url = 'http://pokeapi.co/api/v2/pokemon-species/'+name;
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
-      }
-    },
-    success: function(data) {
-      var url = 'http://pokeapi.co/api/v2/pokemon/'+name;
-      getPokemonStats(url);
-      setPokedexTemplate(data);
-    }
-  });
+  pokemon.getData(name);
 }
 
 function getRandomPokemon() {
@@ -75,34 +60,13 @@ function getRandomPokemon() {
   setPokemonTemplate(data);
 }
 
-function getPokemonStats(url) {
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
-      }
-    },
-    success: function(data) {
-      setPokemonStatsTemplate(data);
-    }
-  });
-}
-
 function setPokedexTemplate(dataObj) {
   $('#pokedex-table').empty();
   var theTemplateScript = $('#poke-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
-}
-
-function setPokemonStatsTemplate(data) {
-  $("#pokestats-table").empty();
-  var theTemplateScript = $('#pokestats-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#pokestats-table").append(theTemplate(data));
-  $('#poke-sprite').attr('src', data.sprites.front_default);
+  /*console.log(dataObj.color.name);
+  $(".panel-heading").css('background-color', dataObj.color.name);*/
 }
 
 function setPokemonTemplate(data) {
