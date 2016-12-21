@@ -57,8 +57,3 @@ var pokemon = {
     });
   }
 };
-
-/*for (var i = 386; i < 450; i++) {
-  pokemon.getData(i);
-}
-*/

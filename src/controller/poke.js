@@ -65,8 +65,6 @@ function setPokedexTemplate(dataObj) {
   var theTemplateScript = $('#poke-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
-  /*console.log(dataObj.color.name);
-  $(".panel-heading").css('background-color', dataObj.color.name);*/
 }
 
 function setPokemonTemplate(data) {
