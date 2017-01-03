@@ -108,7 +108,10 @@
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3 class="panel-title"><b>{{FirstStringUpperCase name}}: {{id}}</b> | Evolved From: <b>{{FirstStringUpperCase evolves_from}}</b></h3>
+          <h3 class="panel-title">
+            <b>{{FirstStringUpperCase name}}: {{id}}</b>
+            <b> | Evolved From: <a class="btn btn-info details" role="button" data-name="{{evolves_from}}">{{url}} {{FirstStringUpperCase evolves_from}}</a></b>
+          </h3>
         </div>
         <div class="panel-body">
           <img src="{{sprite}}" id="poke-sprite" placeholder="Image placeholder"></img>

@@ -65,6 +65,10 @@ function setPokedexTemplate(dataObj) {
   var theTemplateScript = $('#poke-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokedex-table").append(theTemplate(dataObj));
+  $('.details').click(function() {
+    var name = $(this).data('name');
+    getPokeDetails(name);
+  });
 }
 
 function setPokemonTemplate(data) {

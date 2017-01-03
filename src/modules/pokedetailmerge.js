@@ -22,9 +22,15 @@ var pokemon = {
             var poke = data1;
             var evolves_from;
             if (pokespecies.evolves_from_species === null) {
-              evolves_from = null;
+              evolves_from = "N/A";
             } else {
               evolves_from = pokespecies.evolves_from_species.name;
+            }
+
+            if (pokespecies.habitat === null) {
+              habitat = "N/A";
+            } else {
+              habitat = pokespecies.habitat.name;
             }
 
             var res = {
@@ -33,7 +39,7 @@ var pokemon = {
               desc: pokespecies.flavor_text_entries[1].flavor_text,
               genus: pokespecies.genera[0].genus,
               generation: pokespecies.generation.name,
-              habitat: pokespecies.habitat.name,
+              habitat: habitat,
               id: pokespecies.id,
               name: pokespecies.name,
               shape: pokespecies.shape.name,

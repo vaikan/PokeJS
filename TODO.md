@@ -17,7 +17,7 @@
 
 #### TODO List V2
 
-- **[Bug]** Uncaught error due to null value in pokedetailmerge.js
+- **[DONE] [Bug]** Uncaught error due to null value in pokedetailmerge.js
 
 - **[Improvement]** Add go to top function for app mode when viewing details from random pokemon table.
 
@@ -27,4 +27,10 @@
 
 - **[Improvement]** Find way to make it Offline capable [indexedDB, service workers]
 
-- **[Improvement]** Add refresh button for random poke table.
+- **[Improvement]** Add refresh button for random poke table and automatically refresh it when details link is clicked.
+
+- **[DONE] [Improvement]** Add link to evolved pokemons
+
+- **[Improvement]** Add toggle to all cards.
+
+- **[Improvement]** Add more details to the random pokemon tables
