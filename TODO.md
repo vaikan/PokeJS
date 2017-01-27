@@ -19,7 +19,7 @@
 
 - **[DONE] [Bug]** Uncaught error due to null value in pokedetailmerge.js
 
-- **[Improvement]** Add go to top function for app mode when viewing details from random pokemon table.
+- **[DONE] [Improvement]** Add go to top function for app mode when viewing details from random pokemon table.
 
 - **[Improvement]** Add hover effect for buttons in app mode.
 

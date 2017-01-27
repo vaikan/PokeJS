@@ -70,18 +70,22 @@
     <footer>
       <p>&copy; Vaikan 2015</p>
     </footer>
+    <a href="#0" class="cd-top">Top</a>
   </div>
+
   <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/material.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.9/js/ripples.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
+  <script src="../assets/js/to-top.js"></script>
   <script src="../modules/db.js"></script>
   <script src="../modules/indexdb.js"></script>
   <script src="../modules/pokedetailmerge.js"></script>
   <script src="../controller/poke.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
+
   <script>
     $(function() {
       $.material.init();
@@ -110,7 +114,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">
             <b>{{FirstStringUpperCase name}}: {{id}}</b>
-            <b> | Evolved From: <a class="btn btn-info details" role="button" data-name="{{evolves_from}}">{{url}} {{FirstStringUpperCase evolves_from}}</a></b>
+            <b> | Evolved From: <a class="btn btn-info details" role="button" data-name="{{evolves_from}}">{{FirstStringUpperCase evolves_from}}</a></b>
           </h3>
         </div>
         <div class="panel-body">
