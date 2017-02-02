@@ -34,7 +34,6 @@ var pokeDB = (function() {
     request.onsuccess = function(e) {
       //get a reference to the DB;
       datastore = e.target.result;
-      pokeDB.countPokemon();
       console.log("Sucessfully opened datastore 'pokemons'");
     };
 
@@ -44,36 +43,24 @@ var pokeDB = (function() {
 
   /**
    * fetch all pokemon item list
-   * @param  {Function} callback callback function
+   * @param  {String}   pokemonname   pokemon name
+   * @param  {Function} callback      callback function
   */
-  pDB.fetchPokemon = function(callback) {
+  pDB.fetchPokemon = function(pokemonname, callback) {
     var db = datastore;
-    var transaction = db.transaction(['pokemon'], 'readwrite');
+    var transaction = db.transaction(['pokemon'], 'readonly');
     var objStore = transaction.objectStore('pokemon');
-
-    var keyRange = IDBKeyRange.lowerBound(0);
-    var cursorRequest = objStore.openCursor(keyRange);
-
-    var pokemons = [];
-
-    transaction.oncomplete = function(e) {
-      //execute the callback function
-      callback(pokemons);
+    var request = objStore.get(pokemonname);
+    request.onerror = function(event) {
+      // Handle errors!
+      console.log("Could not get pokemon data with name: " + pokemonname);
     };
-
-    cursorRequest.onsuccess = function(e) {
-      var result = e.target.result;
-
-      if (!!result === false) {
-        return;
-      }
-
-      pokemons.push(result.value);
-
-      result.continue();
+    request.onsuccess = function(event) {
+      // Do something with the request.result!
+      var pokedata = request.result
+      callback(pokedata);
+      //console.log(pokedata);
     };
-
-    cursorRequest.onerror = pDB.onerror;
   };
 
   /**
@@ -98,7 +85,7 @@ var pokeDB = (function() {
 
     //handle a sucessful datastore put
     request.onsuccess = function(e) {
-      console.log(request);
+      console.log('Successfully added ' + request.result + ' in the IndexedDB store');
     };
 
     //handle errors

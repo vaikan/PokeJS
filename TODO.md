@@ -21,6 +21,8 @@
 
 - **[DONE] [Improvement]** Add go to top function for app mode when viewing details from random pokemon table.
 
+- **[DONE] [Improvement]** Add link to evolved pokemons
+
 - **[Improvement]** Add hover effect for buttons in app mode.
 
 - **[Improvement]** Find sprites for Poke Regions and Game Version images
@@ -28,8 +30,6 @@
 - **[Improvement]** Find way to make it Offline capable [indexedDB, service workers]
 
 - **[Improvement]** Add refresh button for random poke table and automatically refresh it when details link is clicked.
-
-- **[DONE] [Improvement]** Add link to evolved pokemons
 
 - **[Improvement]** Add toggle to all cards.
 

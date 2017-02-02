@@ -67,7 +67,8 @@ function setPokedexTemplate(dataObj) {
   $("#pokedex-table").append(theTemplate(dataObj));
   $('.details').click(function() {
     var name = $(this).data('name');
-    getPokeDetails(name);
+    //getPokeDetails(name);
+    pokemon.getData(name);
   });
 }
 
@@ -76,8 +77,9 @@ function setPokemonTemplate(data) {
   var theTemplateScript = $('#pokemon-template').html();
   var theTemplate = Handlebars.compile(theTemplateScript);
   $("#pokemon-table").append(theTemplate(data));
-  $('.details').click(function() {
+  $('.pokemontemplate').click(function() {
     var name = $(this).data('name');
-    getPokeDetails(name);
+    //getPokeDetails(name);
+    pokemon.getData(name);
   });
 }
