@@ -67,7 +67,6 @@ function setPokedexTemplate(dataObj) {
   $("#pokedex-table").append(theTemplate(dataObj));
   $('.details').click(function() {
     var name = $(this).data('name');
-    //getPokeDetails(name);
     pokemon.getData(name);
   });
 }
@@ -79,7 +78,6 @@ function setPokemonTemplate(data) {
   $("#pokemon-table").append(theTemplate(data));
   $('.pokemontemplate').click(function() {
     var name = $(this).data('name');
-    //getPokeDetails(name);
     pokemon.getData(name);
   });
 }
