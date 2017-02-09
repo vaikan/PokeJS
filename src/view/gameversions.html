@@ -76,7 +76,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/material.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.10/js/ripples.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.7/handlebars.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.6/handlebars.min.js"></script>
   <script src="http://fezvrasta.github.io/snackbarjs/dist/snackbar.min.js"></script>
   <script src="../assets/js/to-top.js"></script>
   <script src="../modules/db.js"></script>
@@ -101,65 +101,6 @@
         }
       }
     });
-  </script>
-  <script type="x-handlebars-template" id="ver-template">
-    {{#versions.results}}
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">{{FirstStringUpperCase name}}</h3>
-        </div>
-        <div class="panel-body">
-          <p>Some Description to be added later</p>
-        </div>
-        <p><a class="btn btn-info details" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
-      </div>
-    </div>
-    {{/versions.results}}
-  </script>
-  <script type="x-handlebars-template" id="verdetails-template">
-    <div class="panel-group" id="accordion">
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse1">
-          <h4 class="panel-title">
-            <a>Generation</a>
-          </h4>
-        </div>
-        <div id="collapse1" class="panel-collapse collapse">
-          <div class="panel-body">
-              <p>{{FirstStringUpperCase generation.name}}</p>
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse2">
-          <h4 class="panel-title">
-            <a>Regions</a>
-          </h4>
-        </div>
-        <div id="collapse2" class="panel-collapse collapse">
-          <div class="panel-body">
-            {{#regions}}
-              <p>{{FirstStringUpperCase name}}</p>
-            {{/regions}}
-          </div>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading" data-toggle="collapse" data-parent="#accordion" href="#collapse3">
-          <h4 class="panel-title">
-            <a>Games</a>
-          </h4>
-        </div>
-        <div id="collapse3" class="panel-collapse collapse">
-          <div class="panel-body">
-            {{#versions}}
-              <p>{{FirstStringUpperCase name}}</p>
-            {{/versions}}
-          </div>
-        </div>
-      </div>
-    </div>
   </script>
 </body>
 </html>

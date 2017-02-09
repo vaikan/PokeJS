@@ -62,9 +62,12 @@ function getRandomPokemon() {
 
 function setPokedexTemplate(dataObj) {
   $('#pokedex-table').empty();
-  var theTemplateScript = $('#poke-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#pokedex-table").append(theTemplate(dataObj));
+
+  $.get('../template/poke-tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#pokedex-table').append(template(dataObj));
+  }, 'html')
+
   $('.details').click(function() {
     var name = $(this).data('name');
     pokemon.getData(name);
@@ -73,9 +76,12 @@ function setPokedexTemplate(dataObj) {
 
 function setPokemonTemplate(data) {
   $("#pokemon-table").empty();
-  var theTemplateScript = $('#pokemon-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#pokemon-table").append(theTemplate(data));
+
+  $.get('../template/random_pokemon_tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#pokemon-table').append(template(data));
+  }, 'html')
+
   $('.pokemontemplate').click(function() {
     var name = $(this).data('name');
     pokemon.getData(name);

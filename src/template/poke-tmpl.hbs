@@ -1,0 +1,45 @@
+<div class="col-md-4">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <b>{{FirstStringUpperCase name}}: {{id}}</b>
+        <b> | Evolved From: <a class="btn btn-info details" role="button" data-name="{{evolves_from}}">{{FirstStringUpperCase evolves_from}}</a></b>
+      </h3>
+    </div>
+    <div class="panel-body">
+      <img src="{{sprite}}" id="poke-sprite" placeholder="Image placeholder"></img>
+      <p>{{desc}}</p>
+    </div>
+  </div>
+</div>
+<div class="col-md-8">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">General Information</h3>
+        </div>
+        <div class="panel-body">
+          <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color}}</p><hr/>
+          <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape}}</p><hr/>
+          <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat}}</p><hr/>
+          <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation}}</p><hr/>
+          <p><label>Height:&nbsp;</label>{{height}}</p><hr/>
+          <p><label>Weight:&nbsp;</label>{{weight}}</p><hr/>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Stats</h3>
+        </div>
+        <div class="panel-body">
+          {{#stats}}
+          <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p><hr>
+          {{/stats}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
