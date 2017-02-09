@@ -49,14 +49,15 @@ function getRegionDetails(url, name) {
 }
 
 function setRegionTemplate(dataObj) {
-  var theTemplateScript = $('#region-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#region-table").append(theTemplate(dataObj));
-  $('.details').click(function() {
-    var uri = $(this).data('url');
-    var name = $(this).data('name');
-    getRegionDetails(uri, name);
-  });
+  $.get('../template/regions_tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#region-table').append(template(dataObj));
+      $('.details').click(function() {
+        var uri = $(this).data('url');
+        var name = $(this).data('name');
+        getRegionDetails(uri, name);
+      });
+  }, 'html')
 }
 
 function sortRegionFeatures(dataObj) {
@@ -109,8 +110,10 @@ function sortRegionFeatures(dataObj) {
 
 function setSortedFeaturesTemplate(dataObj) {
   $('#sortedfeatures-body').empty();
-  var theTemplateScript = $('#sortedfeatures-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#sortedfeatures-body").append(theTemplate(dataObj));
-  $('#sortedfeatures-modal').modal();
+
+  $.get('../template/regiondetails_tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#sortedfeatures-body').append(template(dataObj));
+      $('#sortedfeatures-modal').modal();
+  }, 'html')
 }

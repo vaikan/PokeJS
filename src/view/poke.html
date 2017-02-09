@@ -87,98 +87,34 @@
   <script src="../modules/indexdb.js"></script>
 
   <script>
-    $(function() {
-      $.material.init();
+  $(function() {
+    $.material.init();
 
-      pokeDB.open();
-      if (!window.localStorage) {
-        $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
-      } else {
-        getPokemon();
-        var getDetailsButton = document.getElementById('getdetails');
-        getDetailsButton.onclick = function() {
+    pokeDB.open();
+    if (!window.localStorage) {
+      $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
+    } else {
+      getPokemon();
+      var getDetailsButton = document.getElementById('getdetails');
+      getDetailsButton.onclick = function() {
+        var name = document.getElementById("input-id").value;
+        getPokeDetails(name.toLowerCase());
+      };
+
+      $('#input-id').keypress(function(e){
+        var keycode = (e.keyCode ? e.keyCode : e.which);
+        if(keycode == '13'){
           var name = document.getElementById("input-id").value;
           getPokeDetails(name.toLowerCase());
-        };
+        }
+        e.stopPropagation();
+      });
 
-        $('#closePanel').click(function() {
-          $('#pokemon-table').empty();
-        })
-      }
-    });
-  </script>
-  <script type="x-handlebars-template" id="poke-template">
-    <div class="col-md-4">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h3 class="panel-title">
-            <b>{{FirstStringUpperCase name}}: {{id}}</b>
-            <b> | Evolved From: <a class="btn btn-info details" role="button" data-name="{{evolves_from}}">{{FirstStringUpperCase evolves_from}}</a></b>
-          </h3>
-        </div>
-        <div class="panel-body">
-          <img src="{{sprite}}" id="poke-sprite" placeholder="Image placeholder"></img>
-          <p>{{desc}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-8">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">General Information</h3>
-            </div>
-            <div class="panel-body">
-              <p><label>Color:&nbsp;</label>{{FirstStringUpperCase color}}</p><hr/>
-              <p><label>Shape:&nbsp;</label>{{FirstStringUpperCase shape}}</p><hr/>
-              <p><label>Habitat:&nbsp;</label>{{FirstStringUpperCase habitat}}</p><hr/>
-              <p><label>Generation:&nbsp;</label>{{FirstStringUpperCase generation}}</p><hr/>
-              <p><label>Height:&nbsp;</label>{{height}}</p><hr/>
-              <p><label>Weight:&nbsp;</label>{{weight}}</p><hr/>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h3 class="panel-title">Stats</h3>
-            </div>
-            <div class="panel-body">
-              {{#stats}}
-                <p><label>{{FirstStringUpperCase stat.name}}:&nbsp;</label>{{base_stat}}</p><hr>
-              {{/stats}}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </script>
-
-  <script type="x-handlebars-template" id="pokemon-template">
-  <div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <button type="button" class="close" id="closePanel">&times;</button>
-        <h3 class="panel-title">Some Interesting Pokemons</h3>
-      </div>
-      <div class="panel-body">
-      {{#this}}
-      <div class="col-md-4">
-        <div class="panel panel-primary">
-          <div class="panel-heading">
-            <h3 class="panel-title">{{FirstStringUpperCase name}} : {{pokeid}}</h3>
-          </div>
-          <div class="panel-body">
-            <p>Some Description to be added later</p>
-          </div>
-          <p><a class="btn btn-info pokemontemplate" role="button" data-url="{{url}}" data-name="{{name}}">View details &raquo;</a></p>
-        </div>
-      </div>
-      {{/this}}
-      </div>
-    </div>
-  </div>
+      $('#closePanel').click(function() {
+        $('#pokemon-table').empty();
+      })
+    }
+  });
   </script>
 </body>
 </html>

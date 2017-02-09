@@ -26,40 +26,51 @@ function getVersionNames() {
 }
 
 function getGameVersionDetails(url, name) {
-  $.ajax({
-    url: url,
-    type: 'GET',
-    error: function(jqXHR, textStatus, errorThrown) {
-      if (textStatus === 'error') {
-        console.log(textStatus);
+  var storeName = 'Game-Version-'+name;
+  if (localStorage.getItem(storeName) !== null) {
+    console.log('"Game-Version" present in Local Storage');
+    var res = db.getData(storeName);
+    console.log(res);
+    setVersionDetailsTemplate(res);
+  } else {
+    $.ajax({
+      url: url,
+      type: 'GET',
+      error: function(jqXHR, textStatus, errorThrown) {
+        if (textStatus === 'error') {
+          console.log(textStatus);
+        }
+      },
+      success: function(data) {
+        db.storeData(data, storeName);
+        var res = db.getData(storeName);
+        console.log(res);
+        setVersionDetailsTemplate(res);
       }
-    },
-    success: function(data) {
-      var storeName = 'Game-Version-'+name;
-      db.storeData(data, storeName);
-      var res = db.getData(storeName);
-      console.log(res);
-      setVersionDetailsTemplate(res);
-    }
-  });
+    });
+  }
 }
 
 function setVersionTemplate(dataObj) {
   var parseJSON = JSON.parse(dataObj);
-  var theTemplateScript = $('#ver-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#version-table").append(theTemplate(parseJSON));
-  $('.details').click(function() {
-    var uri = $(this).data('url');
-    var name = $(this).data('name');
-    getGameVersionDetails(uri, name);
-  });
+
+  $.get('../template/gameversion_tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#version-table').append(template(parseJSON));
+      $('.details').click(function() {
+        var uri = $(this).data('url');
+        var name = $(this).data('name');
+        getGameVersionDetails(uri, name);
+      });
+  }, 'html')
 }
 
 function setVersionDetailsTemplate(dataObj) {
   $('#gamever-body').empty();
-  var theTemplateScript = $('#verdetails-template').html();
-  var theTemplate = Handlebars.compile(theTemplateScript);
-  $("#gamever-body").append(theTemplate(dataObj));
-  $('#gamever-modal').modal();
+
+  $.get('../template/gameversion_details_tmpl.hbs', function (tmpl) {
+      var template = Handlebars.compile(tmpl);
+      $('#gamever-body').append(template(dataObj));
+      $('#gamever-modal').modal();
+  }, 'html')
 }

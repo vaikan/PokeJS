@@ -8,6 +8,10 @@ body {
 .span6 {
   text-align: center;
 }
+
+#input-id {
+  color: #fff;
+}
 /*a {
   color: #e86256;
   text-decoration: none;
