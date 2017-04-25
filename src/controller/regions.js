@@ -24,28 +24,33 @@ function getRegions() {
 }
 
 function getRegionDetails(url, name) {
-  var indexName = 'Region-'+name;
-  if (localStorage.getItem(indexName) !== null) {
-    var res = db.getData(indexName);
-    sortRegionFeatures(res);
-  } else {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      error: function(jqXHR, textStatus, errorThrown) {
-        if (textStatus === 'error') {
-          console.log(textStatus);
+  pokeDB.fetchData(name, 'region', function(pokedata){
+    if (pokedata !== undefined) {
+      sortRegionFeatures(pokedata);
+    } else {
+      $.ajax({
+        url: url,
+        type: 'GET',
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (textStatus === 'error') {
+            console.log(textStatus);
+          }
+        },
+        success: function(data) {
+          var jsonString = '{"locations": ' + JSON.stringify(data.locations) + '}';
+          var data = '{"name": "'+ name +'","locations": ' + JSON.stringify(data.locations) + '}';
+          console.log(data);
+
+          pokeDB.createData(JSON.parse(data), 'region');
+          pokeDB.fetchData(name, 'region', function(pokedata){
+            sortRegionFeatures(pokedata);
+          });
+
         }
-      },
-      success: function(data) {
-        var jsonString = '{"locations": ' + JSON.stringify(data.locations) + '}';
-        var jsonObj = JSON.parse(jsonString);
-        db.storeData(jsonObj, indexName);
-        var res = db.getData(indexName);
-        sortRegionFeatures(res);
-      }
-    });
-  }
+      });
+    }
+
+  });
 }
 
 function setRegionTemplate(dataObj) {

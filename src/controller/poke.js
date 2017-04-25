@@ -57,29 +57,22 @@ function getRandomPokemon() {
       }
     }
   }
-  setPokemonTemplate(data);
+  setTemplate(data, '#pokemon-table', 'random_pokemon_tmpl.hbs');
 }
 
-function setPokedexTemplate(dataObj) {
-  $('#pokedex-table').empty();
+/**
+ * set Pokemon template
+ * @param {Object} data     Pokemon data
+ * @param {String} table    template table name
+ * @param {String} template template name
+ */
+function setTemplate(data, table, template) {
+  $(table).empty();
 
-  $.get('../template/poke-tmpl.hbs', function (tmpl) {
+  $.get('../template/'+template, function (tmpl) {
       var template = Handlebars.compile(tmpl);
-      $('#pokedex-table').append(template(dataObj));
-      $('.details').click(function() {
-        var name = $(this).data('name');
-        pokemon.getData(name);
-      });
-  }, 'html')
-}
-
-function setPokemonTemplate(data) {
-  $("#pokemon-table").empty();
-
-  $.get('../template/random_pokemon_tmpl.hbs', function (tmpl) {
-      var template = Handlebars.compile(tmpl);
-      $('#pokemon-table').append(template(data));
-      $('.pokemontemplate').click(function() {
+      $(table).append(template(data));
+      $(table).find('a').click(function() {
         var name = $(this).data('name');
         pokemon.getData(name);
       });

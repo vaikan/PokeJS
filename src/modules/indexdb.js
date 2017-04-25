@@ -12,6 +12,8 @@ var pokeDB = (function() {
 
     //open a connection to the datastore
     var request = indexedDB.open('pokemons', version);
+    //var request2 = indexedDB.open('pokemons', version+1);
+    //var request2 = indexedDB.open('regions', version);
 
     //handle datastore upgrades
     request.onupgradeneeded = function(e) {
@@ -28,13 +30,31 @@ var pokeDB = (function() {
       var store = db.createObjectStore('pokemon', {
         keyPath: 'name'
       });
+
+      if (db.objectStoreNames.contains('region')) {
+        db.deleteObjectStore('region');
+      }
+
+      //create a new datastore
+      var store = db.createObjectStore('region', {
+        keyPath: 'name'
+      });
+
+      if (db.objectStoreNames.contains('game')) {
+        db.deleteObjectStore('game');
+      }
+
+      //create a new datastore
+      var store = db.createObjectStore('game', {
+        keyPath: 'name'
+      });
     };
 
     //handle sucessful datastore access
     request.onsuccess = function(e) {
       //get a reference to the DB;
       datastore = e.target.result;
-      console.log("Sucessfully opened datastore 'pokemons'");
+      console.log("Sucessfully opened the datastore");
     };
 
     //handle errors when opening the datastore
@@ -46,19 +66,19 @@ var pokeDB = (function() {
    * @param  {String}   pokemonname   pokemon name
    * @param  {Function} callback      callback function
   */
-  pDB.fetchPokemon = function(pokemonname, callback) {
+  pDB.fetchData = function(pokemonname, objStore, callback) {
     var db = datastore;
-    var transaction = db.transaction(['pokemon'], 'readonly');
-    var objStore = transaction.objectStore('pokemon');
+    var transaction = db.transaction([objStore], 'readonly');
+    var objStore = transaction.objectStore(objStore);
     var request = objStore.get(pokemonname);
     request.onerror = function(event) {
       // Handle errors!
-      console.log("Could not get pokemon data with name: " + pokemonname);
+      console.log("Could not get "+ objStore +" data with name: " + pokemonname);
     };
     request.onsuccess = function(event) {
       // Do something with the request.result!
-      var pokedata = request.result
-      callback(pokedata);
+      var dbdata = request.result
+      callback(dbdata);
       //console.log(pokedata);
     };
   };
@@ -68,20 +88,18 @@ var pokeDB = (function() {
    * @param  {String}   text     new pokemon list
    * @param  {Function} callback callback function
    */
-  pDB.createPokemon = function(dataObj) {
+  pDB.createData = function(dataObj, objStore) {
     //get a reference to the db
     var db = datastore;
 
     //initiate a new transaction
-    var transaction = db.transaction(['pokemon'], 'readwrite');
+    var transaction = db.transaction([objStore], 'readwrite');
 
     //get the datastore
-    var objStore = transaction.objectStore('pokemon');
-
-    var pokemon = dataObj;
+    var objStore = transaction.objectStore(objStore);
 
     //create the datastore request
-    var request = objStore.put(pokemon);
+    var request = objStore.put(dataObj);
 
     //handle a sucessful datastore put
     request.onsuccess = function(e) {
@@ -113,19 +131,25 @@ var pokeDB = (function() {
     };
   };
 
-  pDB.countPokemon = function() {
+  pDB.countObjStoreData = function(objStore) {
+    //console.log(objStore);
     var db = datastore;
 
     //initiate a new transaction
-    var transaction = db.transaction(['pokemon'], 'readwrite');
+    var transaction = db.transaction([objStore], 'readwrite');
 
     //get the datastore
-    var objStore = transaction.objectStore('pokemon');
+    var objStore = transaction.objectStore(objStore);
 
     var countRequest = objStore.count();
     countRequest.onsuccess = function() {
+      console.log("dsadasd");
       console.log(countRequest.result);
     };
+
+    countRequest.onerror = function(e) {
+      console.log(objStore + "is either empty or does not exit");
+    }
   };
 
   // Export the pDB object

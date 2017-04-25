@@ -1,6 +1,6 @@
 var pokemon = {
   getData : function(id) {
-    pokeDB.fetchPokemon(id, function(pokedata){
+    pokeDB.fetchData(id, 'pokemon', function(pokedata){
       if (pokedata === undefined) {
         $.ajax({
           url: 'http://pokeapi.co/api/v2/pokemon-species/'+id,
@@ -56,14 +56,15 @@ var pokemon = {
                   weight: poke.weight
                 };
                 //console.log(res);
-                pokeDB.createPokemon(res);
-                setPokedexTemplate(res);
+                pokeDB.createData(res, 'pokemon');
+                //pokeDB.countObjStoreData('pokemon');
+                setTemplate(res, '#pokedex-table', 'poke-tmpl.hbs');
               }
             });
           }
         });
       } else {
-        setPokedexTemplate(pokedata);
+        setTemplate(pokedata, '#pokedex-table', 'poke-tmpl.hbs');
       }
     });
   }
