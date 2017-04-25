@@ -82,9 +82,12 @@
   <script src="../modules/db.js" charset="utf-8"></script>
   <script src="../controller/regions.js"></script>
   <script src="../helpers/handlebarhelpers.js"></script>
+  <script src="../modules/indexdb.js"></script>
   <script>
     $(function() {
       $.material.init();
+
+      pokeDB.open();
       if (!window.localStorage) {
         $.snackbar({content: "Sorry! Your browser does not support Local Storage. The app may not function properly.\n Please use modern browsers with Local Storage Support", timeout: 10000});
       } else {
