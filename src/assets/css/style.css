@@ -3,7 +3,7 @@ body {
   padding-bottom: 20px;
 }
 .jumbotron {
-  background-color: #3f51b5 /*#fff*/;
+  background-color: *#fff;
 }
 .span6 {
   text-align: center;
