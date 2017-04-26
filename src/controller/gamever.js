@@ -26,29 +26,28 @@ function getVersionNames() {
 }
 
 function getGameVersionDetails(url, name) {
-  var storeName = 'Game-Version-'+name;
-  if (localStorage.getItem(storeName) !== null) {
-    console.log('"Game-Version" present in Local Storage');
-    var res = db.getData(storeName);
-    console.log(res);
-    setVersionDetailsTemplate(res);
-  } else {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      error: function(jqXHR, textStatus, errorThrown) {
-        if (textStatus === 'error') {
-          console.log(textStatus);
+  pokeDB.fetchData(name, 'game', function(pokedata){
+    if (pokedata !== undefined) {
+      setVersionDetailsTemplate(pokedata.data);
+    } else {
+      $.ajax({
+        url: url,
+        type: 'GET',
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (textStatus === 'error') {
+            console.log(textStatus);
+          }
+        },
+        success: function(data) {
+          var data = '{"name": "'+ name +'","data": ' + JSON.stringify(data) + '}';
+          pokeDB.createData(JSON.parse(data), 'game');
+          pokeDB.fetchData(name, 'game', function(pokedata){
+            setVersionDetailsTemplate(pokedata.data);
+          });
         }
-      },
-      success: function(data) {
-        db.storeData(data, storeName);
-        var res = db.getData(storeName);
-        console.log(res);
-        setVersionDetailsTemplate(res);
-      }
-    });
-  }
+      });
+    }
+  });
 }
 
 function setVersionTemplate(dataObj) {

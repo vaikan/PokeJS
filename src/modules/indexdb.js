@@ -12,9 +12,7 @@ var pokeDB = (function() {
 
     //open a connection to the datastore
     var request = indexedDB.open('pokemons', version);
-    //var request2 = indexedDB.open('pokemons', version+1);
-    //var request2 = indexedDB.open('regions', version);
-
+    
     //handle datastore upgrades
     request.onupgradeneeded = function(e) {
       var db = e.target.result;

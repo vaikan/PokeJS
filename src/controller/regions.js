@@ -37,19 +37,14 @@ function getRegionDetails(url, name) {
           }
         },
         success: function(data) {
-          var jsonString = '{"locations": ' + JSON.stringify(data.locations) + '}';
           var data = '{"name": "'+ name +'","locations": ' + JSON.stringify(data.locations) + '}';
-          console.log(data);
-
           pokeDB.createData(JSON.parse(data), 'region');
           pokeDB.fetchData(name, 'region', function(pokedata){
             sortRegionFeatures(pokedata);
           });
-
         }
       });
     }
-
   });
 }
 
