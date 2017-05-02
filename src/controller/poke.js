@@ -19,6 +19,7 @@ function getPokemon(name) {
       },
       success: function(data) {
         db.storeData(data, 'Pokedex');
+        getRandomPokemon();
         // TODO: find a way to add all pokemon data into user stored db like indexed db.
       }
     });
@@ -28,7 +29,7 @@ function getPokemon(name) {
 /**
  * gets Pokemon details from the Pokedex
  * @param  {string}   name      Pokemon resource URI
- * @return {Object}            Pokemon details
+ * @return {Object}             Pokemon details
  */
 function getPokeDetails(name) {
   pokemon.getData(name);
