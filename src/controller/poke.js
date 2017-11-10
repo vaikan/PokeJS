@@ -8,7 +8,7 @@ function getPokemon(name) {
     $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
     getRandomPokemon();
   } else {
-    var url = 'http://pokeapi.co/api/v2/pokedex/1';
+    var url = 'https://pokeapi.co/api/v2/pokedex/1';
     $.ajax({
       url: url,
       type: 'GET',

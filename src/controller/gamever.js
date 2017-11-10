@@ -5,7 +5,7 @@ function getVersionNames() {
   if (localStorage.getItem('Game-Version') !== null) {
     console.log('"Game-Version" present in Local Storage');
   } else {
-    var url = 'http://pokeapi.co/api/v2/version-group/';
+    var url = 'https://pokeapi.co/api/v2/version-group/';
     $.ajax({
       url: url,
       type: 'GET',
