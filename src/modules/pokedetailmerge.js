@@ -3,7 +3,7 @@ var pokemon = {
     pokeDB.fetchData(id, 'pokemon', function(pokedata){
       if (pokedata === undefined) {
         $.ajax({
-          url: 'http://pokeapi.co/api/v2/pokemon-species/'+id,
+          url: 'https://pokeapi.co/api/v2/pokemon-species/'+id,
           type: 'GET',
           error: function(jqXHR, textStatus, errorThrown) {
             if (textStatus === 'error') {
@@ -13,7 +13,7 @@ var pokemon = {
           success: function(data) {
             var pokespecies = data;
             $.ajax({
-              url: 'http://pokeapi.co/api/v2/pokemon/'+id,
+              url: 'https://pokeapi.co/api/v2/pokemon/'+id,
               type: 'GET',
               error: function(jqXHR, textStatus, errorThrown) {
                 if (textStatus === 'error') {
@@ -68,4 +68,8 @@ var pokemon = {
       }
     });
   }
+
+/*  storeJSON: function() {
+
+  }*/
 };

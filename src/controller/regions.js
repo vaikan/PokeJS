@@ -5,7 +5,7 @@ function getRegions() {
   if (localStorage.getItem('Regions') !== null) {
     console.log('"Regions" present in Local Storage');
   } else {
-    var url = 'http://pokeapi.co/api/v2/region/';
+    var url = 'https://pokeapi.co/api/v2/region/';
     $.ajax({
       url: url,
       type: 'GET',
