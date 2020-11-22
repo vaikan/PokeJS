@@ -1,16 +1,17 @@
 {
-  "name": "PokeJS",
+  "name": "pokejs",
   "version": "0.0.1",
   "description": "Pokedex built on Javascript",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "dev": "parcel /src/index.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "express": "4.17.1"
   },
-  "engines": {
-    "node": "6.10.2",
-    "npm": "3.8.5"
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
   }
 }
