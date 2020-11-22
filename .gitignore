@@ -1,4 +1,3 @@
-.gitignore
 .term-project
 test
 testrunner.html
@@ -6,6 +5,8 @@ node_modules
 icons
 background.js
 manifest.json
+dist
+new
 src/assets/js/paginate.js
 src/assets/js/randomize.js
 app.log

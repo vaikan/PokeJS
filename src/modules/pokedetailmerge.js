@@ -1,28 +1,29 @@
 var pokemon = {
-  getData : function(id) {
-    pokeDB.fetchData(id, 'pokemon', function(pokedata){
+  getData: function(id) {
+    pokeDB.fetchData(id, "pokemon", function(pokedata) {
       if (pokedata === undefined) {
         $.ajax({
-          url: 'https://pokeapi.co/api/v2/pokemon-species/'+id,
-          type: 'GET',
+          url: "https://pokeapi.co/api/v2/pokemon-species/" + id,
+          type: "GET",
           error: function(jqXHR, textStatus, errorThrown) {
-            if (textStatus === 'error') {
+            if (textStatus === "error") {
               console.log(textStatus);
             }
           },
           success: function(data) {
             var pokespecies = data;
             $.ajax({
-              url: 'https://pokeapi.co/api/v2/pokemon/'+id,
-              type: 'GET',
+              url: "https://pokeapi.co/api/v2/pokemon/" + id,
+              type: "GET",
               error: function(jqXHR, textStatus, errorThrown) {
-                if (textStatus === 'error') {
+                if (textStatus === "error") {
                   console.log(textStatus);
                 }
               },
               success: function(data1) {
                 var poke = data1;
-                var evolves_from;
+                var evolves_from, habitat;
+
                 if (pokespecies.evolves_from_species === null) {
                   evolves_from = "N/A";
                 } else {
@@ -56,20 +57,20 @@ var pokemon = {
                   weight: poke.weight
                 };
                 //console.log(res);
-                pokeDB.createData(res, 'pokemon');
+                pokeDB.createData(res, "pokemon");
                 //pokeDB.countObjStoreData('pokemon');
-                setTemplate(res, '#pokedex-table', 'poke-tmpl.hbs');
+                setTemplate(res, "#pokedex-table", "poke-tmpl.hbs");
               }
             });
           }
         });
       } else {
-        setTemplate(pokedata, '#pokedex-table', 'poke-tmpl.hbs');
+        setTemplate(pokedata, "#pokedex-table", "poke-tmpl.hbs");
       }
     });
   }
 
-/*  storeJSON: function() {
+  /*  storeJSON: function() {
 
   }*/
 };
