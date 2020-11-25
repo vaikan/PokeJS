@@ -1,53 +1,35 @@
 /**
  * get regions details
  */
-function getRegions() {
+async function getRegions() {
   if (localStorage.getItem("Regions") !== null) {
     console.log('"Regions" present in Local Storage');
   } else {
-    var url = "https://pokeapi.co/api/v2/region/";
-    $.ajax({
-      url: url,
-      type: "GET",
-      error: function(jqXHR, textStatus, errorThrown) {
-        if (textStatus === "error") {
-          console.log(textStatus);
-        }
-      },
-      success: function(data) {
-        db.storeData(data, "Regions");
-        var res = db.getData("Regions");
-        setRegionTemplate(res);
-      }
-    });
+    const url = "https://pokeapi.co/api/v2/region/";
+    const regions = await fetch(url).then((response) => response.json());
+
+    db.storeData(regions, "Regions");
+    const res = db.getData("Regions");
+    setRegionTemplate(res);
   }
 }
 
 function getRegionDetails(url, name) {
-  pokeDB.fetchData(name, "region", function(pokedata) {
+  pokeDB.fetchData(name, "region", async (pokedata) => {
     if (pokedata !== undefined) {
       sortRegionFeatures(pokedata);
     } else {
-      $.ajax({
-        url: url,
-        type: "GET",
-        error: function(jqXHR, textStatus, errorThrown) {
-          if (textStatus === "error") {
-            console.log(textStatus);
-          }
-        },
-        success: function(data) {
-          var dataObj =
-            '{"name": "' +
-            name +
-            '","locations": ' +
-            JSON.stringify(data.locations) +
-            "}";
-          pokeDB.createData(JSON.parse(dataObj), "region");
-          pokeDB.fetchData(name, "region", function(pokedata) {
-            sortRegionFeatures(pokedata);
-          });
-        }
+      const regionsDetails = await fetch(url).then((response) =>
+        response.json()
+      );
+
+      const dataObj = {
+        name: name,
+        locations: regionsDetails.locations,
+      };
+      pokeDB.createData(dataObj, "region");
+      pokeDB.fetchData(name, "region", (data) => {
+        sortRegionFeatures(data);
       });
     }
   });
@@ -56,10 +38,10 @@ function getRegionDetails(url, name) {
 function setRegionTemplate(dataObj) {
   $.get(
     "../template/regions_tmpl.hbs",
-    function(tmpl) {
+    function (tmpl) {
       var template = Handlebars.compile(tmpl);
       $("#region-table").append(template(dataObj));
-      $(".details").click(function() {
+      $(".details").click(function () {
         var uri = $(this).data("url");
         var name = $(this).data("name");
         getRegionDetails(uri, name);
@@ -124,7 +106,7 @@ function sortRegionFeatures(dataObj) {
     forests: forest,
     mountains: mountains,
     towers: tower,
-    lakes: lake
+    lakes: lake,
   };
 
   setSortedFeaturesTemplate(sortedData);
@@ -135,7 +117,7 @@ function setSortedFeaturesTemplate(dataObj) {
 
   $.get(
     "../template/regiondetails_tmpl.hbs",
-    function(tmpl) {
+    function (tmpl) {
       var template = Handlebars.compile(tmpl);
       $("#sortedfeatures-body").append(template(dataObj));
       $("#sortedfeatures-modal").modal();
