@@ -1,4 +1,4 @@
-var pokemon = {
+const pokemon = {
   getData: (id) => {
     pokeDB.fetchData(id, "pokemon", async (pokedata) => {
       if (pokedata === undefined) {

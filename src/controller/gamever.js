@@ -1,51 +1,33 @@
 /**
  * get game version-group details
  */
-function getVersionNames() {
+async function getVersionNames() {
   if (localStorage.getItem("Game-Version") !== null) {
     console.log('"Game-Version" present in Local Storage');
   } else {
-    var url = "https://pokeapi.co/api/v2/version-group/";
-    $.ajax({
-      url: url,
-      type: "GET",
-      error: function(jqXHR, textStatus, errorThrown) {
-        if (textStatus === "error") {
-          console.log(textStatus);
-        }
-      },
-      success: function(data) {
-        db.storeData(data, "Game-Version");
-        var res = db.getData("Game-Version");
-        var resString = JSON.stringify(res);
-        var formatttedData = '{"versions":' + resString + "}";
-        setVersionTemplate(formatttedData);
-      }
-    });
+    const url = "https://pokeapi.co/api/v2/version-group/";
+    const versions = await fetch(url).then((response) => response.json());
+
+    db.storeData(versions, "Game-Version");
+    const res = db.getData("Game-Version");
+    const resString = JSON.stringify(res);
+    const formatttedData = '{"versions":' + resString + "}";
+    setVersionTemplate(formatttedData);
   }
 }
 
 function getGameVersionDetails(url, name) {
-  pokeDB.fetchData(name, "game", function(pokedata) {
+  pokeDB.fetchData(name, "game", async (pokedata) => {
     if (pokedata !== undefined) {
       setVersionDetailsTemplate(pokedata.data);
     } else {
-      $.ajax({
-        url: url,
-        type: "GET",
-        error: function(jqXHR, textStatus, errorThrown) {
-          if (textStatus === "error") {
-            console.log(textStatus);
-          }
-        },
-        success: function(data) {
-          var dataObj =
-            '{"name": "' + name + '","data": ' + JSON.stringify(data) + "}";
-          pokeDB.createData(JSON.parse(dataObj), "game");
-          pokeDB.fetchData(name, "game", function(pokedata) {
-            setVersionDetailsTemplate(pokedata.data);
-          });
-        }
+      const versionsDetails = await fetch(url).then((response) =>
+        response.json()
+      );
+      const dataObj = { name: name, data: versionsDetails };
+      pokeDB.createData(dataObj, "game");
+      pokeDB.fetchData(name, "game", function (data) {
+        setVersionDetailsTemplate(data.data);
       });
     }
   });
@@ -56,10 +38,10 @@ function setVersionTemplate(dataObj) {
 
   $.get(
     "../template/gameversion_tmpl.hbs",
-    function(tmpl) {
+    function (tmpl) {
       var template = Handlebars.compile(tmpl);
       $("#version-table").append(template(parseJSON));
-      $(".details").click(function() {
+      $(".details").click(function () {
         var uri = $(this).data("url");
         var name = $(this).data("name");
         getGameVersionDetails(uri, name);
@@ -74,7 +56,7 @@ function setVersionDetailsTemplate(dataObj) {
 
   $.get(
     "../template/gameversion_details_tmpl.hbs",
-    function(tmpl) {
+    function (tmpl) {
       var template = Handlebars.compile(tmpl);
       $("#gamever-body").append(template(dataObj));
       $("#gamever-modal").modal();

@@ -3,26 +3,17 @@
  * @param  {string}   name     name of the pokemon
  * @return {object}            pokemon details
  */
-function getPokemon(name) {
-  if (localStorage.getItem('Pokedex') !== null) {
-    $.snackbar({content: "Pokedex present in Local Storage", timeout: 10000});
+async function getPokemon(name) {
+  if (localStorage.getItem("Pokedex") !== null) {
+    $.snackbar({ content: "Pokedex present in Local Storage", timeout: 10000 });
     getRandomPokemon();
   } else {
-    var url = 'https://pokeapi.co/api/v2/pokedex/1';
-    $.ajax({
-      url: url,
-      type: 'GET',
-      error: function(jqXHR, textStatus, errorThrown) {
-        if (textStatus === 'error') {
-          console.log(textStatus);
-        }
-      },
-      success: function(data) {
-        db.storeData(data, 'Pokedex');
-        getRandomPokemon();
-        // TODO: find a way to add all pokemon data into user stored db like indexed db.
-      }
-    });
+    const url = "https://pokeapi.co/api/v2/pokedex/1";
+    const pokedata = await fetch(url).then((response) => response.json());
+
+    db.storeData(pokedata, "Pokedex");
+    getRandomPokemon();
+    // TODO: find a way to add all pokemon data into user stored db like indexed db.
   }
 }
 
@@ -36,29 +27,29 @@ function getPokeDetails(name) {
 }
 
 function getRandomPokemon() {
-  var random1 = Math.floor(Math.random() * (721));
-  var random2 = Math.floor(Math.random() * (721));
-  var random3 = Math.floor(Math.random() * (721));
+  const random1 = Math.floor(Math.random() * 721);
+  const random2 = Math.floor(Math.random() * 721);
+  const random3 = Math.floor(Math.random() * 721);
 
-  var randomNumberArr = [random1, random2, random3];
-  var pokemonList = db.getData('Pokedex');
-  var pokeEntry = pokemonList.pokemon_entries;
-  var data = [];
+  const randomNumberArr = [random1, random2, random3];
+  const pokemonList = db.getData("Pokedex");
+  const pokeEntry = pokemonList.pokemon_entries;
+  const data = [];
 
-  for (var p in pokeEntry) {
-    var pokeid = pokeEntry[p].entry_number;
+  for (let p in pokeEntry) {
+    const pokeid = pokeEntry[p].entry_number;
 
-    for (var num in randomNumberArr) {
+    for (let num in randomNumberArr) {
       if (pokeid === randomNumberArr[num]) {
         data.push({
-          'pokeid':pokeid,
-          'name':pokeEntry[p].pokemon_species.name,
-          'url':pokeEntry[p].pokemon_species.url
+          pokeid: pokeid,
+          name: pokeEntry[p].pokemon_species.name,
+          url: pokeEntry[p].pokemon_species.url,
         });
       }
     }
   }
-  setTemplate(data, '#pokemon-table', 'random_pokemon_tmpl.hbs');
+  setTemplate(data, "#pokemon-table", "random_pokemon_tmpl.hbs");
 }
 
 /**
@@ -70,12 +61,18 @@ function getRandomPokemon() {
 function setTemplate(data, table, template) {
   $(table).empty();
 
-  $.get('../template/'+template, function (tmpl) {
-      var template = Handlebars.compile(tmpl);
-      $(table).append(template(data));
-      $(table).find('a').click(function() {
-        var name = $(this).data('name');
-        pokemon.getData(name);
-      });
-  }, 'html')
+  $.get(
+    "../template/" + template,
+    function (tmpl) {
+      const handlebarTemplate = Handlebars.compile(tmpl);
+      $(table).append(handlebarTemplate(data));
+      $(table)
+        .find("a")
+        .click(function () {
+          const name = $(this).data("name");
+          pokemon.getData(name);
+        });
+    },
+    "html"
+  );
 }
