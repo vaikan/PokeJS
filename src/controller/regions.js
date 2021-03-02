@@ -39,11 +39,11 @@ function setRegionTemplate(dataObj) {
   $.get(
     "../template/regions_tmpl.hbs",
     function (tmpl) {
-      var template = Handlebars.compile(tmpl);
+      const template = Handlebars.compile(tmpl);
       $("#region-table").append(template(dataObj));
       $(".details").click(function () {
-        var uri = $(this).data("url");
-        var name = $(this).data("name");
+        const uri = $(this).data("url");
+        const name = $(this).data("name");
         getRegionDetails(uri, name);
       });
     },
@@ -51,53 +51,53 @@ function setRegionTemplate(dataObj) {
   );
 }
 
-function sortRegionFeatures(dataObj) {
-  var pop_center = [];
-  var forest = [];
-  var cave = [];
-  var island = [];
-  var route = [];
-  var mountains = [];
-  var tower = [];
-  var lake = [];
-  var other_features = [];
+function sortRegionFeatures(regionsData) {
+  const pop_center = [];
+  const forest = [];
+  const cave = [];
+  const island = [];
+  const route = [];
+  const mountains = [];
+  const tower = [];
+  const lake = [];
+  const other_features = [];
 
-  for (var v in dataObj.locations) {
-    var loc = dataObj.locations[v].name;
+  for (let index in regionsData.locations) {
+    const location = regionsData.locations[index].name;
     if (
-      loc.search("city") != -1 ||
-      loc.search("town") != -1 ||
-      loc.search("village") != -1
+      location.search("city") != -1 ||
+      location.search("town") != -1 ||
+      location.search("village") != -1
     ) {
-      pop_center.push(loc);
-    } else if (loc.search("forest") != -1) {
-      forest.push(loc);
-    } else if (loc.search("cave") != -1) {
-      cave.push(loc);
+      pop_center.push(location);
+    } else if (location.search("forest") != -1) {
+      forest.push(location);
+    } else if (location.search("cave") != -1) {
+      cave.push(location);
     } else if (
-      loc.search("route") != -1 ||
-      loc.search("road") != -1 ||
-      loc.search("tunnel") != -1 ||
-      loc.search("bridge") != -1
+      location.search("route") != -1 ||
+      location.search("road") != -1 ||
+      location.search("tunnel") != -1 ||
+      location.search("bridge") != -1
     ) {
-      route.push(loc);
-    } else if (loc.search("island") != -1) {
-      island.push(loc);
+      route.push(location);
+    } else if (location.search("island") != -1) {
+      island.push(location);
     } else if (
-      loc.search("mountain") != -1 ||
-      loc.search("mt-") != -1 ||
-      loc.search("mount") != -1
+      location.search("mountain") != -1 ||
+      location.search("mt-") != -1 ||
+      location.search("mount") != -1
     ) {
-      mountains.push(loc);
-    } else if (loc.search("lake") != -1) {
-      lake.push(loc);
-    } else if (loc.search("tower") != -1) {
-      tower.push(loc);
+      mountains.push(location);
+    } else if (location.search("lake") != -1) {
+      lake.push(location);
+    } else if (location.search("tower") != -1) {
+      tower.push(location);
     } else {
-      other_features.push(loc);
+      other_features.push(location);
     }
   }
-  var sortedData = {
+  const sortedData = {
     population_centers: pop_center,
     routes: route,
     other_features: other_features,
@@ -118,7 +118,7 @@ function setSortedFeaturesTemplate(dataObj) {
   $.get(
     "../template/regiondetails_tmpl.hbs",
     function (tmpl) {
-      var template = Handlebars.compile(tmpl);
+      const template = Handlebars.compile(tmpl);
       $("#sortedfeatures-body").append(template(dataObj));
       $("#sortedfeatures-modal").modal();
     },
